@@ -13,26 +13,29 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --gold:      #39FF6A;
-      --gold-dim:  #1FA84A;
-      --parchment: #DFF5E6;
-      --ash:       #8FBFA0;
-      --dark0:     #040D08;
-      --dark1:     #0A1A12;
-      --dark2:     #122A1C;
-      --dark3:     #1B3D28;
-      --dark4:     #2C5A3C;
+      --gold:      #2FA75D;   /* lush ivy, no longer neon */
+      --gold-dim:  #176B3A;
+      --parchment: #E4F1E6;
+      --ash:       #7CA38B;
+      --dark0:     #03090A;   /* deep poisoned dark */
+      --dark1:     #08130F;
+      --dark2:     #0D2017;
+      --dark3:     #143524;
+      --dark4:     #235039;
       --win:       #4CAF50;
       --loss:      #C0392B;
-      --tie:       #E67E22;
+      --tie:       #E0843A;
+      --bloom:     #E11D5B;   /* poison ivy crimson bloom */
+      --bloom-soft:#F45B8C;
     }
 
     html, body {
       height: 100%;
       background: var(--dark0);
       background-image:
-        radial-gradient(circle at 15% 20%, #1FA84A12 0%, transparent 35%),
-        radial-gradient(circle at 85% 75%, #39FF6A0A 0%, transparent 40%);
+        radial-gradient(circle at 15% 20%, #176B3A14 0%, transparent 35%),
+        radial-gradient(circle at 85% 78%, #E11D5B0E 0%, transparent 42%),
+        radial-gradient(circle at 70% 12%, #34B8660A 0%, transparent 38%);
       color: var(--parchment);
       font-family: 'Inter', sans-serif;
       overflow-x: hidden;
@@ -63,7 +66,7 @@
       pointer-events: none;
       font-size: 14px;
       opacity: 0.25;
-      filter: drop-shadow(0 0 4px #39FF6A55);
+      filter: drop-shadow(0 0 4px #34B86655);
       animation: leafFall linear infinite;
     }
     @keyframes leafFall {
@@ -86,7 +89,7 @@
     .header {
       position: relative; z-index: 10;
       background: linear-gradient(180deg, #020A05 0%, #0A2014 50%, var(--dark1) 100%);
-      border-bottom: 1px solid #39FF6A33;
+      border-bottom: 1px solid #34B86633;
       padding: env(safe-area-inset-top) 0 0;
       text-align: center;
       overflow: visible;
@@ -109,7 +112,7 @@
       font-size: 28px;
       letter-spacing: 5px;
       color: var(--parchment);
-      text-shadow: 0 0 30px #39FF6A55, 0 2px 8px #00000099;
+      text-shadow: 0 0 30px #34B86655, 0 2px 8px #00000099;
       line-height: 1;
     }
     .header h1 span { color: var(--gold); }
@@ -142,7 +145,7 @@
       left: 50%;
       transform: translateX(-50%);
       height: 160px;
-      filter: drop-shadow(0 0 16px #39FF6A66) drop-shadow(0 0 32px #8B000044);
+      filter: drop-shadow(0 0 16px #2FA75D55) drop-shadow(0 0 30px #E11D5B55);
       pointer-events: none;
     }
 
@@ -151,13 +154,13 @@
       display: flex;
       justify-content: center;
       background: #00000033;
-      border-top: 1px solid #39FF6A22;
+      border-top: 1px solid #34B86622;
       margin-top: 10px;
     }
     .global-stat {
       flex: 1; text-align: center;
       padding: 10px 0;
-      border-right: 1px solid #39FF6A22;
+      border-right: 1px solid #34B86622;
     }
     .global-stat:last-child { border-right: none; }
     .global-stat-val {
@@ -178,7 +181,7 @@
       z-index: 100;
       display: flex;
       background: var(--dark1);
-      border-top: 1px solid #39FF6A33;
+      border-top: 1px solid #34B86633;
       padding-bottom: env(safe-area-inset-bottom);
     }
     .nav-btn {
@@ -212,7 +215,7 @@
     .search-input {
       width: 100%;
       background: var(--dark2);
-      border: 1px solid #39FF6A33;
+      border: 1px solid #34B86633;
       border-radius: 10px;
       padding: 12px 14px 12px 40px;
       color: var(--parchment);
@@ -237,7 +240,7 @@
       width: 100%;
       display: flex; align-items: center; justify-content: space-between;
       background: var(--dark2);
-      border: 1px solid #39FF6A55;
+      border: 1px solid #34B86655;
       border-radius: 10px;
       padding: 12px 14px;
       color: var(--gold);
@@ -276,7 +279,7 @@
       display: flex; align-items: center; justify-content: space-between;
       background: transparent;
       border: none;
-      border-top: 1px solid #39FF6A18;
+      border-top: 1px solid #34B86618;
       padding: 13px 16px;
       color: var(--ash);
       font-family: 'Rajdhani', sans-serif;
@@ -287,10 +290,10 @@
       transition: background 0.1s, color 0.1s;
     }
     .dropdown-option:first-child { border-top: none; }
-    .dropdown-option:active { background: #39FF6A15; }
+    .dropdown-option:active { background: #34B86615; }
     .dropdown-option.active {
       color: var(--gold);
-      background: #39FF6A12;
+      background: #34B86612;
     }
     .dropdown-option-check { font-size: 12px; color: var(--gold); }
 
@@ -315,30 +318,43 @@
     }
     .card {
       background: linear-gradient(155deg, var(--dark2) 0%, var(--dark1) 100%);
-      border: 1px solid #39FF6A22;
+      border: 1px solid #34B86622;
       border-radius: 14px;
       overflow: hidden;
       position: relative;
+      isolation: isolate;
+      padding-top: 22px;            /* room for the vine strip */
     }
     .card::before {
       content: '';
       position: absolute; top: 0; left: 0; right: 0; height: 1px;
       background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
       opacity: 0.5;
+      z-index: 3;
     }
-    .card::after {
-      content: '🌿';
-      position: absolute;
-      top: -2px; right: 6px;
-      font-size: 13px;
-      opacity: 0.45;
-      transform: rotate(15deg);
-      filter: drop-shadow(0 0 3px #39FF6A66);
-      pointer-events: none;
+
+    /* ── ONE NATURAL IVY VINE ACROSS THE TOP (tiles seamlessly, never stretched) ── */
+    .vine-top {
+      position: absolute; top: -4px; left: 0; right: 0; height: 38px;
+      pointer-events: none; z-index: 2; opacity: 0.9;
+      background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjgiIGhlaWdodD0iNDIiIHZpZXdCb3g9IjAgMCAxNjggNDIiPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9IiMyRkE3NUQiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj4KICA8cGF0aCBkPSJNMCAxNSBDIDI4IDUsIDU2IDUsIDg0IDE1IEMgMTEyIDI1LCAxNDAgMjUsIDE2OCAxNSIvPgo8L2c+CjxnIHN0cm9rZT0iIzFDN0E0MyIgc3Ryb2tlLXdpZHRoPSIxLjYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgZmlsbD0ibm9uZSI+CiAgPHBhdGggZD0iTTQyIDExIEwgNDIgNSIvPgogIDxwYXRoIGQ9Ik0xOCAxMiBMIDE1IDgiLz4KICA8cGF0aCBkPSJNMTI2IDIwIEwgMTI4IDE0Ii8+CiAgPHBhdGggZD0iTTcwIDEzIEwgNzIgOCIvPgo8L2c+CjwhLS0gbGVhdmVzOiBwb2ludGVkIGFsbW9uZCwgYWxsIGxpZnRpbmcgdXAvb3V0d2FyZCAtLT4KPGc+CiAgPHBhdGggZD0iTTQyIDUgQyAzMyAtMSwgMjcgNCwgMzEgMTAgQyAzNSAxNSwgNDYgMTIsIDQyIDUgWiIgZmlsbD0iIzE3NkIzQSIvPgogIDxwYXRoIGQ9Ik00MiA1IEwgMzUgOCIgc3Ryb2tlPSIjMEU0QTI4IiBzdHJva2Utd2lkdGg9IjAuOCIvPgogIDxwYXRoIGQ9Ik0xNSA4IEMgOSAzLCAzIDYsIDYgMTEgQyA5IDE1LCAxOSAxMywgMTUgOCBaIiBmaWxsPSIjMTc2QjNBIiBvcGFjaXR5PSIwLjkyIi8+CiAgPHBhdGggZD0iTTEyOCAxNCBDIDEzNyA5LCAxNDMgMTMsIDEzOSAxOCBDIDEzNSAyMiwgMTI0IDIwLCAxMjggMTQgWiIgZmlsbD0iIzJGQTc1RCIvPgogIDxwYXRoIGQ9Ik0xMjggMTQgTCAxMzUgMTYiIHN0cm9rZT0iIzE1NUYzNiIgc3Ryb2tlLXdpZHRoPSIwLjgiLz4KICA8cGF0aCBkPSJNNzIgOCBDIDc4IDMsIDg0IDYsIDgxIDExIEMgNzggMTUsIDY4IDEzLCA3MiA4IFoiIGZpbGw9IiMyRkE3NUQiIG9wYWNpdHk9IjAuOSIvPgo8L2c+CjwhLS0gY3JpbXNvbiBwb2lzb24gYmxvb20gcmlkaW5nIHRoZSBzdGVtLCBsaWZ0ZWQgc28gaXQgY2xlYXJzIHRoZSBuYW1lIC0tPgo8Zz4KICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSIxOSIgcj0iNCIgZmlsbD0iI0UxMUQ1QiIvPgogIDxjaXJjbGUgY3g9Ijk2LjgiIGN5PSIxNi45IiByPSIyLjUiIGZpbGw9IiNFMTFENUIiLz4KICA8Y2lyY2xlIGN4PSIxMDMuMiIgY3k9IjE3LjIiIHI9IjIuNSIgZmlsbD0iI0UxMUQ1QiIvPgogIDxjaXJjbGUgY3g9Ijk3LjkiIGN5PSIyMS44IiByPSIyLjMiIGZpbGw9IiNFMTFENUIiLz4KICA8Y2lyY2xlIGN4PSIxMDIuMyIgY3k9IjIxLjciIHI9IjIuMyIgZmlsbD0iI0UxMUQ1QiIvPgogIDxjaXJjbGUgY3g9IjEwMCIgY3k9IjE5IiByPSIxLjUiIGZpbGw9IiNGNDVCOEMiLz4KPC9nPgo8L3N2Zz4=");
+      background-repeat: repeat-x;
+      background-size: 168px 42px;
+      background-position: left -6px top;
+      filter: drop-shadow(0 0 3px #34B86655);
+      transition: opacity 0.4s, background-position 0.6s cubic-bezier(.22,1,.36,1);
     }
+    /* the ivy stirs subtly on hover/touch */
+    .card:hover .vine-top { opacity: 1; background-position: left 4px top; }
+    @media (prefers-reduced-motion: reduce) {
+      .vine-top { transition: none; }
+      .card:hover .vine-top { background-position: left -6px top; }
+    }
+    .card:hover { border-color: #E11D5B33; }
     .card-top {
-      padding: 14px 14px 10px;
+      padding: 8px 14px 10px;
       display: flex; align-items: center; gap: 12px;
+      position: relative; z-index: 1;
     }
 
     /* Dice */
@@ -352,14 +368,14 @@
     }
     .pip {
       border-radius: 50%;
-      border: 1.5px solid #39FF6A55;
+      border: 1.5px solid #34B86655;
       background: transparent;
       transition: background 0.3s, box-shadow 0.3s;
     }
     .pip.lit {
-      background: radial-gradient(circle at 35% 35%, #AFFFC6, #39FF6A);
+      background: radial-gradient(circle at 35% 35%, #AFFFC6, #34B866);
       border-color: #AFFFC6;
-      box-shadow: 0 0 5px #39FF6A88;
+      box-shadow: 0 0 5px #34B86688;
     }
 
     .card-info { flex: 1; min-width: 0; }
@@ -403,7 +419,7 @@
     }
 
     /* Action buttons — bigger touch targets */
-    .card-btns { display: flex; }
+    .card-btns { display: flex; position: relative; z-index: 4; }
     .card-btns + .card-btns { border-top: 1px solid #ffffff05; }
     .act-btn {
       flex: 1; background: transparent;
@@ -578,6 +594,12 @@ function Dice({ wins, losses, ties }) {
   return el('div', { className:'dice' }, ...cells);
 }
 
+function Vine() {
+  // The vine itself is a seamless, naturally-proportioned CSS background that
+  // repeats across the box at a fixed size, so it never stretches with width.
+  return el('div', { className:'vine-top', 'aria-hidden':true });
+}
+
 function Card({ char, stats, onUpdate }) {
   const { wins, losses, ties } = stats;
   const total = wins + losses + ties;
@@ -587,21 +609,22 @@ function Card({ char, stats, onUpdate }) {
     el('button', { className:`act-btn ${cls}`, onClick:()=>onUpdate(action) }, label);
   return el('div', {
     className:'card',
-    style:{ borderColor: total>0 ? char.color+'44':undefined, boxShadow: total>0 ? `0 4px 20px ${char.color}18`:undefined }
+    style:{ borderColor: total>0 ? char.color+'44':undefined, boxShadow: total>0 ? `0 4px 22px ${char.color}1A`:undefined }
   },
+    el(Vine, null),
     el('div', { className:'card-top' },
       el(Dice, { wins, losses, ties }),
       el('div', { className:'card-info' },
         el('div', { className:'card-name' }, char.name+' '+char.icon),
         el('div', { className:'card-season', style:{ color:char.color } }, char.season),
         el('div', { className:'card-bar-wrap' },
-          el('div', { className:'card-bar-fill', style:{ width:pct+'%', background:`linear-gradient(90deg,${char.color},#39FF6A)` } })
+          el('div', { className:'card-bar-fill', style:{ width:pct+'%', background:'linear-gradient(90deg,#2FA75D,#E11D5B)' } })
         ),
         el('div', { className:'card-winrate' }, total>0 ? `${pct}% win rate · ${total} game${total!==1?'s':''}` : 'No battles yet')
       )
     ),
     el('div', { className:'card-stats' },
-      ...[ ['Wins',wins,'#4CAF50'],['Losses',losses,'#C0392B'],['Ties',ties,'#E67E22'],['W/L',ratio,'#39FF6A'] ]
+      ...[ ['Wins',wins,'#4CAF50'],['Losses',losses,'#C0392B'],['Ties',ties,'#E67E22'],['W/L',ratio,'#34B866'] ]
         .map(([label,val,col])=>el('div',{key:label,className:'stat-block'},
           el('div',{className:'stat-val',style:{color:col}},val),
           el('div',{className:'stat-label'},label)
@@ -667,6 +690,16 @@ function App() {
   const medals = ["🥇","🥈","🥉"];
 
   return el('div', null,
+    // shared gradient for the creeping ivy stems
+    el('svg', { width:0, height:0, style:{position:'absolute'}, 'aria-hidden':true },
+      el('defs', null,
+        el('linearGradient', { id:'vineGrad', x1:'0', y1:'0', x2:'1', y2:'0' },
+          el('stop', { offset:'0%',  stopColor:'#176B3A' }),
+          el('stop', { offset:'55%', stopColor:'#2FA75D' }),
+          el('stop', { offset:'100%', stopColor:'#46C46E' })
+        )
+      )
+    ),
     // Tree silhouette backdrop
     el('div', { className:'tree-backdrop' },
       el('svg', { className:'layer-far', viewBox:'0 0 400 200', preserveAspectRatio:'xMidYMax slice', style:{height:'28vh'} },
@@ -695,7 +728,7 @@ function App() {
         el('div', { className:'header-logo' },
           el('h1', null, el('span',null,'DICE '),'THRONE')
         ),
-        el('div', { style:{ fontFamily:"'Rajdhani', sans-serif", fontSize:13, fontWeight:700, letterSpacing:4, color:'#39FF6A', textTransform:'uppercase', marginTop:4, textShadow:'0 0 12px #39FF6A66' } }, 'Age of Vitality'),
+        el('div', { style:{ fontFamily:"'Rajdhani', sans-serif", fontSize:13, fontWeight:700, letterSpacing:4, color:'#34B866', textTransform:'uppercase', marginTop:4, textShadow:'0 0 12px #34B86666' } }, 'Age of Vitality'),
         el('div', { className:'header-rule' }, el('span',null,'🌿')),
         el('div', { className:'header-sub' }, 'Win · Loss · Tie Tracker'),
       ),
@@ -703,7 +736,7 @@ function App() {
         el('img', { src:MAD_KING, alt:'The Mad King' })
       ),
       totalGames > 0 && el('div', { className:'global-stats' },
-        ...[ [totalGames,'Games','#39FF6A'],[totalWins,'Wins','#4CAF50'],[totalLosses,'Losses','#C0392B'],[Math.round((totalWins/totalGames)*100)+'%','Win Rate','#E8DCC8'] ]
+        ...[ [totalGames,'Games','#34B866'],[totalWins,'Wins','#4CAF50'],[totalLosses,'Losses','#C0392B'],[Math.round((totalWins/totalGames)*100)+'%','Win Rate','#E8DCC8'] ]
           .map(([val,label,col])=>el('div',{key:label,className:'global-stat'},
             el('div',{className:'global-stat-val',style:{color:col}},val),
             el('div',{className:'global-stat-label'},label)
@@ -779,11 +812,11 @@ function App() {
                     el('div',{className:'lb-name'},c.name),
                     el('div',{className:'lb-season',style:{color:c.color}},c.season),
                     el('div',{className:'lb-bar-wrap'},
-                      el('div',{style:{height:'100%',width:wp+'%',background:`linear-gradient(90deg,${c.color},#39FF6A)`,borderRadius:2}})
+                      el('div',{style:{height:'100%',width:wp+'%',background:'linear-gradient(90deg,#2FA75D,#E11D5B)',borderRadius:2}})
                     )
                   ),
                   el('div',{className:'lb-stats'},
-                    ...[ ['W',c.wins,'#4CAF50'],['L',c.losses,'#C0392B'],['WIN%',wp+'%','#39FF6A'],['W/L',rl,'#E8DCC8'] ]
+                    ...[ ['W',c.wins,'#4CAF50'],['L',c.losses,'#C0392B'],['WIN%',wp+'%','#34B866'],['W/L',rl,'#E8DCC8'] ]
                       .map(([lbl,val,col])=>el('div',{key:lbl},
                         el('div',{className:'lb-stat-val',style:{color:col}},val),
                         el('div',{className:'lb-stat-label'},lbl)
