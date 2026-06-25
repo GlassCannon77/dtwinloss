@@ -8,42 +8,97 @@
   <meta name="apple-mobile-web-app-title" content="Dice Throne" />
   <meta name="theme-color" content="#03090A" />
   <title>DICE THRONE TRACKER</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Marcellus&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root, [data-theme="vitality"] {
-      --gold:#2FA75D; --gold-dim:#176B3A; --glow:#34B866;
-      --parchment:#E4F1E6; --ash:#7CA38B;
-      --dark0:#03090A; --dark1:#08130F; --dark2:#0D2017; --dark3:#143524; --dark4:#235039;
-      --win:#4CAF50; --loss:#C0392B; --tie:#E0843A;
-      --bloom:#E11D5B; --bloom-soft:#F45B8C;
-      --bg-a:#176B3A14; --bg-b:#E11D5B0E; --bg-c:#34B8660A;
-      --tagline:Age of Vitality;
+    /* Emberforge — molten arena (default) */
+    :root, [data-theme="emberforge"] {
+      --gold:#E8A13A; --gold-dim:#9A5A1E; --glow:#FF9D42;
+      --parchment:#F2E4D0; --ash:#A98C72;
+      --dark0:#0B0705; --dark1:#140C07; --dark2:#1E130B; --dark3:#2E1D0F; --dark4:#45301A;
+      --win:#5FBF6A; --loss:#D14233; --tie:#E0843A;
+      --bloom:#E0452F; --bloom-soft:#F47A5E;
+      --bg-a:#9A5A1E22; --bg-b:#E0452F12; --bg-c:#FF9D420A;
+      --tree-far:#3A2410; --tree-near:#281806; --roots:#281806;
+      --card-glow:rgba(232,161,58,0.20); --card-glow-soft:rgba(224,69,47,0.12);
     }
+    /* Royal Amethyst — mystic regal */
+    [data-theme="amethyst"] {
+      --gold:#C9A24B; --gold-dim:#7A5E1E; --glow:#B98AE8;
+      --parchment:#ECE6F2; --ash:#9A8FB0;
+      --dark0:#07060E; --dark1:#0E0C18; --dark2:#161222; --dark3:#241B38; --dark4:#392B54;
+      --win:#5FBF6A; --loss:#D14233; --tie:#E0A33A;
+      --bloom:#8E5BD6; --bloom-soft:#B98AE8;
+      --bg-a:#7A5E1E1E; --bg-b:#8E5BD614; --bg-c:#B98AE80A;
+      --tree-far:#231938; --tree-near:#171026; --roots:#171026;
+      --card-glow:rgba(201,162,75,0.18); --card-glow-soft:rgba(142,91,214,0.14);
+    }
+    /* Verdant Crown — Age of Vitality, gold-led forest */
     [data-theme="verdant"] {
-      --gold:#5DBB63; --gold-dim:#2E7D32; --glow:#74D67C;
-      --parchment:#EAF6E8; --ash:#86A98C;
-      --dark0:#04100A; --dark1:#0A1B11; --dark2:#102818; --dark3:#1A3D26; --dark4:#275437;
-      --win:#66E07A; --loss:#C0392B; --tie:#E0A33A;
-      --bloom:#F06AA0; --bloom-soft:#F9A0C4;
-      --bg-a:#2E7D3218; --bg-b:#F06AA00E; --bg-c:#74D67C0A;
+      --gold:#C9A24B; --gold-dim:#6E5A1E; --glow:#D9B85A;
+      --parchment:#ECEFE0; --ash:#95A085;
+      --dark0:#060B06; --dark1:#0C140C; --dark2:#131E13; --dark3:#1E301E; --dark4:#2E462E;
+      --win:#5FBF6A; --loss:#D14233; --tie:#E0A33A;
+      --bloom:#3FA36A; --bloom-soft:#6FCB95;
+      --bg-a:#6E5A1E1E; --bg-b:#3FA36A12; --bg-c:#D9B85A0A;
+      --tree-far:#163A1E; --tree-near:#0F2A16; --roots:#0F2A16;
+      --card-glow:rgba(201,162,75,0.16); --card-glow-soft:rgba(63,163,106,0.14);
     }
-    [data-theme="deeproot"] {
-      --gold:#1FB18A; --gold-dim:#0E6B53; --glow:#2ED6A6;
-      --parchment:#DFF5EE; --ash:#6FA396;
-      --dark0:#02100C; --dark1:#061711; --dark2:#0A2119; --dark3:#103328; --dark4:#1A4F3C;
-      --win:#34D6A6; --loss:#C0392B; --tie:#E0A33A;
-      --bloom:#E0A33A; --bloom-soft:#F2C46A;
-      --bg-a:#0E6B5320; --bg-b:#E0A33A0E; --bg-c:#2ED6A60A;
+    /* Crimson Keep — blood arena */
+    [data-theme="crimson"] {
+      --gold:#C99A4B; --gold-dim:#7A4A1E; --glow:#FF6B5A;
+      --parchment:#F2E2DE; --ash:#B08A82;
+      --dark0:#0C0606; --dark1:#160A0A; --dark2:#201010; --dark3:#331717; --dark4:#4E2222;
+      --win:#5FBF6A; --loss:#E0533F; --tie:#E0843A;
+      --bloom:#D23A3A; --bloom-soft:#F06A6A;
+      --bg-a:#7A4A1E1E; --bg-b:#D23A3A14; --bg-c:#FF6B5A0A;
+      --tree-far:#3A1414; --tree-near:#280C0C; --roots:#280C0C;
+      --card-glow:rgba(201,154,75,0.18); --card-glow-soft:rgba(210,58,58,0.14);
     }
-    [data-theme="mosswood"] {
-      --gold:#8FB339; --gold-dim:#5A7A1E; --glow:#A6C84B;
-      --parchment:#F0F3E2; --ash:#98A07C;
-      --dark0:#080A04; --dark1:#11140A; --dark2:#1A1F0E; --dark3:#2C3517; --dark4:#414E22;
-      --win:#A6C84B; --loss:#C0392B; --tie:#D98E2B;
-      --bloom:#D98E2B; --bloom-soft:#ECB75E;
-      --bg-a:#5A7A1E20; --bg-b:#D98E2B0E; --bg-c:#A6C84B0A;
+    /* Frostforge — icy steel */
+    [data-theme="frost"] {
+      --gold:#7FC8E8; --gold-dim:#2E6F92; --glow:#A9E4FF;
+      --parchment:#E6F2F8; --ash:#8AA6B4;
+      --dark0:#04080C; --dark1:#081420; --dark2:#0E1E2E; --dark3:#163040; --dark4:#244A60;
+      --win:#5FBF6A; --loss:#E0533F; --tie:#E0A33A;
+      --bloom:#4FA3D9; --bloom-soft:#86C9EE;
+      --bg-a:#2E6F921E; --bg-b:#4FA3D912; --bg-c:#A9E4FF0A;
+      --tree-far:#123040; --tree-near:#0B2030; --roots:#0B2030;
+      --card-glow:rgba(127,200,232,0.16); --card-glow-soft:rgba(79,163,217,0.12);
+    }
+    /* Abyssal Tide — deep teal */
+    [data-theme="abyssal"] {
+      --gold:#39C9B0; --gold-dim:#147A6A; --glow:#5FE6CC;
+      --parchment:#DCF4EE; --ash:#7FA89E;
+      --dark0:#03100E; --dark1:#06201C; --dark2:#0A2E28; --dark3:#114038; --dark4:#1A5A4E;
+      --win:#5FE07A; --loss:#E0533F; --tie:#E0A33A;
+      --bloom:#2BB39A; --bloom-soft:#66D9C2;
+      --bg-a:#147A6A1E; --bg-b:#2BB39A14; --bg-c:#5FE6CC0A;
+      --tree-far:#0E3A30; --tree-near:#082A22; --roots:#082A22;
+      --card-glow:rgba(57,201,176,0.16); --card-glow-soft:rgba(43,179,154,0.12);
+    }
+    /* Sunspire — radiant gold + azure */
+    [data-theme="sunspire"] {
+      --gold:#F2C14E; --gold-dim:#B07A1E; --glow:#FFD970;
+      --parchment:#FBF1DC; --ash:#B7A07A;
+      --dark0:#0E0A06; --dark1:#1A130A; --dark2:#261C0E; --dark3:#3A2C14; --dark4:#564220;
+      --win:#5FBF6A; --loss:#E0533F; --tie:#E08A2E;
+      --bloom:#4FA0E0; --bloom-soft:#86C2F0;
+      --bg-a:#B07A1E1E; --bg-b:#4FA0E012; --bg-c:#FFD9700A;
+      --tree-far:#3A2A12; --tree-near:#281C0A; --roots:#281C0A;
+      --card-glow:rgba(242,193,78,0.18); --card-glow-soft:rgba(79,160,224,0.12);
+    }
+    /* Nightbloom — arcane orchid + magenta */
+    [data-theme="nightbloom"] {
+      --gold:#C77BE0; --gold-dim:#6E2E86; --glow:#E6A0F5;
+      --parchment:#F2E6F4; --ash:#A88FB0;
+      --dark0:#0A060E; --dark1:#150A1C; --dark2:#1F1029; --dark3:#301840; --dark4:#48265E;
+      --win:#5FBF6A; --loss:#E0533F; --tie:#E0A33A;
+      --bloom:#E0459B; --bloom-soft:#F47AC0;
+      --bg-a:#6E2E861E; --bg-b:#E0459B14; --bg-c:#E6A0F50A;
+      --tree-far:#2A1438; --tree-near:#1C0C28; --roots:#1C0C28;
+      --card-glow:rgba(199,123,224,0.16); --card-glow-soft:rgba(224,69,155,0.14);
     }
 
     html, body {
@@ -66,6 +121,9 @@
     .tree-backdrop svg { position:absolute; bottom:0; width:100%; height:auto; }
     .tree-backdrop .layer-far { opacity:.35; filter:blur(.5px); }
     .tree-backdrop .layer-near { opacity:.55; }
+    .tree-fill-far { fill:var(--tree-far); transition:fill .5s; }
+    .tree-fill-near { fill:var(--tree-near); transition:fill .5s; }
+    .roots-stroke { stroke:var(--roots); transition:stroke .5s; }
     .leaf-particle { position:fixed; z-index:0; pointer-events:none; font-size:14px; opacity:.25;
       filter:drop-shadow(0 0 4px var(--glow)); animation:leafFall linear infinite; }
     @keyframes leafFall {
@@ -106,7 +164,7 @@
 
     /* header spirit-growth lore row */
     .spirit-row { display:flex; align-items:center; justify-content:center; gap:7px; margin-top:9px;
-      font-family:'Rajdhani',sans-serif; font-size:10px; font-weight:700; letter-spacing:2px;
+      font-family:'Marcellus',sans-serif; font-size:10px; font-weight:700; letter-spacing:2px;
       color:var(--ash); text-transform:uppercase; }
     .spirit-row .sg { color:var(--glow); display:inline-flex; align-items:center; gap:4px; }
     .spirit-row .arw { color:var(--gold-dim); font-size:11px; }
@@ -114,25 +172,23 @@
 
     /* header */
     .header { position:relative; z-index:10; text-align:center; overflow:visible;
-      background:
-        repeating-linear-gradient(0.6deg, rgba(0,0,0,0.18) 0 1px, rgba(255,255,255,0.016) 2px, transparent 3px 7px),
-        linear-gradient(180deg,#020A05 0%, var(--dark2) 58%, var(--dark1) 100%);
+      background:linear-gradient(180deg, var(--dark0) 0%, var(--dark2) 60%, var(--dark1) 100%);
       border-bottom:1px solid var(--gold-dim); box-shadow:inset 0 -12px 26px #00000055; }
     .header::after { content:''; position:absolute; left:0; right:0; bottom:-1px; height:2px;
       background:linear-gradient(90deg,transparent,var(--glow),transparent); opacity:.45; }
     .header-inner { padding:16px 16px 0; }
-    .header h1 { font-family:'Orbitron',sans-serif; font-weight:900; font-size:26px; letter-spacing:5px;
-      color:var(--parchment); text-shadow:0 0 30px var(--glow), 0 2px 8px #00000099; line-height:1; }
+    .header h1 { font-family:'Pirata One',serif; font-weight:400; font-size:33px; letter-spacing:2px;
+      color:var(--parchment); text-shadow:0 0 13px var(--glow), 0 2px 7px #000000aa; line-height:1; }
     .header h1 span { color:var(--gold); }
-    .header-eyebrow { font-family:'Rajdhani',sans-serif; font-size:9px; letter-spacing:5px;
+    .header-eyebrow { font-family:'Marcellus',sans-serif; font-size:9px; letter-spacing:5px;
       color:var(--gold-dim); text-transform:uppercase; margin-bottom:6px; }
-    .header-tag { font-family:'Rajdhani',sans-serif; font-size:12px; font-weight:700; letter-spacing:4px;
-      color:var(--glow); text-transform:uppercase; margin-top:4px; text-shadow:0 0 12px var(--glow); }
+    .header-tag { font-family:'Marcellus',sans-serif; font-size:12px; font-weight:700; letter-spacing:4px;
+      color:var(--glow); text-transform:uppercase; margin-top:4px; text-shadow:0 0 7px var(--glow); }
     .header-rule { display:flex; align-items:center; gap:8px; margin:8px auto 0; max-width:220px; }
     .header-rule::before,.header-rule::after { content:''; flex:1; height:1px;
       background:linear-gradient(90deg,transparent,var(--gold-dim),transparent); }
     .header-rule span { font-size:12px; color:var(--gold-dim); }
-    .header-sub { font-family:'Rajdhani',sans-serif; font-size:11px; letter-spacing:3px;
+    .header-sub { font-family:'Marcellus',sans-serif; font-size:11px; letter-spacing:3px;
       color:var(--ash); text-transform:uppercase; margin-top:4px; }
     .mad-king-wrap { position:relative; height:120px; margin-top:6px; overflow:visible; }
     .mad-king-wrap img { position:absolute; bottom:-10px; left:50%; transform:translateX(-50%);
@@ -142,22 +198,20 @@
     .global-stats { display:flex; justify-content:center; background:#00000033; border-top:1px solid #ffffff14; }
     .global-stat { flex:1; text-align:center; padding:9px 0; border-right:1px solid #ffffff14; }
     .global-stat:last-child { border-right:none; }
-    .global-stat-val { font-family:'Orbitron',sans-serif; font-size:15px; font-weight:700; color:var(--gold); }
+    .global-stat-val { font-family:'Marcellus',sans-serif; font-size:15px; font-weight:700; color:var(--gold); }
     .global-stat-label { font-size:8px; color:var(--ash); letter-spacing:1.5px; text-transform:uppercase; margin-top:1px; }
 
     /* bottom nav */
     .bottom-nav { position:fixed; bottom:0; left:0; right:0; z-index:100; display:flex;
-      background:
-        repeating-linear-gradient(90deg, rgba(0,0,0,0.18) 0 1px, rgba(255,255,255,0.015) 2px, transparent 3px 8px),
-        linear-gradient(180deg, var(--dark2), var(--dark1));
+      background:linear-gradient(180deg, var(--dark2), var(--dark1));
       border-top:1px solid var(--gold-dim); box-shadow:inset 0 3px 12px #00000055, 0 -6px 18px #00000040;
       padding-bottom:env(safe-area-inset-bottom); }
     .bottom-nav::before { content:''; position:absolute; top:-1px; left:0; right:0; height:2px;
       background:linear-gradient(90deg,transparent,var(--glow),transparent); opacity:.4; }
     .nav-btn { flex:1; background:transparent; border:none; color:var(--dark4); padding:10px 4px 9px;
-      font-family:'Rajdhani',sans-serif; font-size:9.5px; font-weight:700; letter-spacing:1.2px;
+      font-family:'Marcellus',sans-serif; font-size:9.5px; font-weight:700; letter-spacing:1.2px;
       text-transform:uppercase; display:flex; flex-direction:column; align-items:center; gap:3px; transition:color .15s, transform .15s; }
-    .nav-btn.active { color:var(--gold); text-shadow:0 0 10px var(--glow); }
+    .nav-btn.active { color:var(--gold); text-shadow:0 0 6px var(--glow); }
     .nav-btn.active .nav-btn-icon { transform:scale(1.12); filter:drop-shadow(0 0 6px var(--glow)); }
     .nav-btn-icon { font-size:19px; line-height:1; transition:transform .15s; }
 
@@ -174,7 +228,7 @@
     .dropdown-wrap { position:relative; flex:1; z-index:50; }
     .dropdown-trigger { width:100%; display:flex; align-items:center; justify-content:space-between;
       background:var(--dark2); border:1px solid var(--gold-dim); border-radius:10px; padding:11px 14px;
-      color:var(--gold); font-family:'Rajdhani',sans-serif; font-size:13px; font-weight:700; letter-spacing:1.5px;
+      color:var(--gold); font-family:'Marcellus',sans-serif; font-size:13px; font-weight:700; letter-spacing:1.5px;
       text-transform:uppercase; transition:border-color .15s; }
     .dropdown-trigger.open { border-color:var(--gold); border-radius:10px 10px 0 0; }
     .dropdown-arrow { font-size:10px; transition:transform .2s; color:var(--gold-dim); }
@@ -185,40 +239,37 @@
     .dropdown-menu.open { max-height:320px; }
     .dropdown-option { width:100%; display:flex; align-items:center; justify-content:space-between; background:transparent;
       border:none; border-top:1px solid #ffffff10; padding:12px 16px; color:var(--ash);
-      font-family:'Rajdhani',sans-serif; font-size:14px; font-weight:600; letter-spacing:1px; text-align:left; }
+      font-family:'Marcellus',sans-serif; font-size:14px; font-weight:600; letter-spacing:1px; text-align:left; }
     .dropdown-option:first-child { border-top:none; }
     .dropdown-option:active { background:#ffffff0d; }
     .dropdown-option.active { color:var(--gold); background:#ffffff0d; }
 
     .toggle-pill { display:flex; align-items:center; gap:7px; background:var(--dark2); border:1px solid var(--gold-dim);
-      border-radius:10px; padding:0 14px; color:var(--ash); font-family:'Rajdhani',sans-serif; font-weight:700;
+      border-radius:10px; padding:0 14px; color:var(--ash); font-family:'Marcellus',sans-serif; font-weight:700;
       font-size:12px; letter-spacing:1px; text-transform:uppercase; white-space:nowrap; }
     .toggle-pill.on { color:var(--gold); border-color:var(--gold); }
 
     /* banners */
     .season-banner { display:flex; align-items:center; gap:8px; border-radius:8px; padding:9px 12px; margin-bottom:12px;
-      font-family:'Rajdhani',sans-serif; font-size:13px; font-weight:600; }
+      font-family:'Marcellus',sans-serif; font-size:13px; font-weight:600; }
     .season-banner.vanguard { background:#BF360C15; border:1px solid #F57F1733; color:#F57F17; }
     .season-banner.single { background:#7986CB15; border:1px solid #AB47BC33; color:#CE93D8; }
 
     /* cards */
     .grid { display:flex; flex-direction:column; gap:12px; }
-    .card { position:relative; isolation:isolate; border:1px solid #ffffff14; border-radius:14px; overflow:hidden;
+    .card { position:relative; isolation:isolate; border:1px solid var(--dark4); border-radius:14px; overflow:hidden;
       transition:border-color .3s, box-shadow .3s, transform .3s;
-      box-shadow:inset 0 1px 0 #ffffff0a, inset 0 -3px 8px #00000045;
+      box-shadow:inset 0 1px 0 #ffffff10, 0 4px 14px #00000045;
       background:
-        repeating-linear-gradient(1.5deg, rgba(0,0,0,0.12) 0px, rgba(0,0,0,0.12) 1px, rgba(255,255,255,0.02) 2px, rgba(0,0,0,0) 5px),
-        repeating-linear-gradient(-1deg, rgba(0,0,0,0.08) 0px, rgba(0,0,0,0) 3px, rgba(0,0,0,0.05) 6px, rgba(0,0,0,0) 9px),
-        repeating-linear-gradient(0deg, rgba(0,0,0,0.06) 0px, rgba(0,0,0,0) 28px, rgba(0,0,0,0.06) 56px),
-        radial-gradient(120% 60% at 18% 0%, rgba(255,255,255,0.03), transparent 60%),
-        linear-gradient(155deg, var(--dark2) 0%, var(--dark1) 100%); }
+        radial-gradient(135% 85% at 50% -12%, #ffffff08, transparent 55%),
+        linear-gradient(162deg, var(--dark3) 0%, var(--dark1) 68%, var(--dark0) 100%); }
     .card::before { content:''; position:absolute; top:0; left:0; right:0; height:1px;
       background:linear-gradient(90deg,transparent,var(--gold-dim),transparent); opacity:.5; z-index:3; }
     .card::after { content:''; position:absolute; inset:0; border-radius:14px; pointer-events:none; z-index:0;
       mix-blend-mode:screen; opacity:.55;
       background:
-        radial-gradient(64px 42px at 5% 100%, rgba(120,180,60,0.22), transparent 70%),
-        radial-gradient(54px 36px at 97% 2%, rgba(120,180,60,0.12), transparent 72%),
+        radial-gradient(64px 42px at 5% 100%, var(--card-glow), transparent 70%),
+        radial-gradient(54px 36px at 97% 2%, var(--card-glow-soft), transparent 72%),
         linear-gradient(90deg, var(--glow) 0, var(--glow) 1.5px, transparent 2px); }
     .card:hover { border-color:var(--bloom); transform:translateY(-1px);
       box-shadow:inset 0 1px 0 #ffffff0a, inset 0 -3px 8px #00000045, 0 0 18px var(--bg-c); }
@@ -230,9 +281,9 @@
     .pip.lit { background:radial-gradient(circle at 35% 35%, #fff, var(--glow)); border-color:#fff; box-shadow:0 0 5px var(--glow); }
     .card-info { flex:1; min-width:0; }
     .card-name-row { display:flex; align-items:center; gap:8px; }
-    .card-name { font-family:'Rajdhani',sans-serif; font-weight:700; font-size:17px; color:var(--parchment);
+    .card-name { font-family:'Marcellus',sans-serif; font-weight:700; font-size:17px; color:var(--parchment);
       overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-    .own-check { display:flex; align-items:center; gap:6px; font-family:'Rajdhani',sans-serif; font-size:11px;
+    .own-check { display:flex; align-items:center; gap:6px; font-family:'Marcellus',sans-serif; font-size:11px;
       font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--ash); white-space:nowrap; cursor:pointer; }
     .own-check input { width:16px; height:16px; accent-color:var(--gold); cursor:pointer; }
     .own-check.on { color:var(--gold); }
@@ -242,55 +293,55 @@
     .rulepop-launch:active { border-color:var(--gold); }
     .rulepop-launch-icon { width:44px; height:44px; flex-shrink:0; display:flex; align-items:center; justify-content:center;
       font-size:22px; border-radius:11px; background:var(--dark0); border:1px solid var(--gold-dim); filter:drop-shadow(0 0 6px var(--glow)); }
-    .rulepop-launch-title { font-family:'Orbitron',sans-serif; font-weight:700; font-size:14px; letter-spacing:1px; color:var(--parchment); }
-    .rulepop-launch-sub { font-family:'Rajdhani',sans-serif; font-size:12px; color:var(--ash); margin-top:2px; }
-    .rulepop-launch-arrow { font-family:'Orbitron',sans-serif; font-size:18px; color:var(--gold); }
-    .card-season { font-family:'Rajdhani',sans-serif; font-size:10px; letter-spacing:2px; text-transform:uppercase; margin-top:1px; }
+    .rulepop-launch-title { font-family:'Marcellus',sans-serif; font-weight:700; font-size:14px; letter-spacing:1px; color:var(--parchment); }
+    .rulepop-launch-sub { font-family:'Marcellus',sans-serif; font-size:12px; color:var(--ash); margin-top:2px; }
+    .rulepop-launch-arrow { font-family:'Marcellus',sans-serif; font-size:18px; color:var(--gold); }
+    .card-season { font-family:'Marcellus',sans-serif; font-size:10px; letter-spacing:2px; text-transform:uppercase; margin-top:1px; }
     .card-bar-wrap { margin-top:7px; height:3px; background:var(--dark0); border-radius:2px; overflow:hidden; }
     .card-bar-fill { height:100%; border-radius:2px; transition:width .4s ease; }
     .card-winrate { font-size:11px; color:var(--ash); margin-top:3px; }
     .card-stats { display:flex; justify-content:space-around; padding:10px 14px; border-top:1px solid #ffffff08;
       border-bottom:1px solid #ffffff08; background:#ffffff03; }
     .stat-block { text-align:center; } 
-    .stat-val { font-family:'Orbitron',sans-serif; font-size:16px; font-weight:700; }
-    .stat-label { font-family:'Rajdhani',sans-serif; font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color:var(--ash); margin-top:1px; }
+    .stat-val { font-family:'Marcellus',sans-serif; font-size:16px; font-weight:700; }
+    .stat-label { font-family:'Marcellus',sans-serif; font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color:var(--ash); margin-top:1px; }
     .card-btns { display:flex; position:relative; z-index:4; }
     .card-btns + .card-btns { border-top:1px solid #ffffff05; }
     .act-btn { flex:1; background:transparent; border:none; border-right:1px solid #ffffff08; color:var(--ash);
-      font-family:'Rajdhani',sans-serif; font-size:15px; font-weight:700; letter-spacing:1px; padding:13px 4px; transition:background .15s, color .15s; }
+      font-family:'Marcellus',sans-serif; font-size:15px; font-weight:700; letter-spacing:1px; padding:13px 4px; transition:background .15s, color .15s; }
     .act-btn:last-child { border-right:none; }
     .act-btn:active { background:#ffffff0d; }
     .act-btn.win { color:var(--win); } .act-btn.loss { color:var(--loss); } .act-btn.tie { color:var(--tie); }
     .act-btn.sub { opacity:.4; font-size:13px; }
-    .card-detail-link { padding:9px 14px; font-family:'Rajdhani',sans-serif; font-size:11px; letter-spacing:2px;
+    .card-detail-link { padding:9px 14px; font-family:'Marcellus',sans-serif; font-size:11px; letter-spacing:2px;
       text-transform:uppercase; color:var(--gold-dim); text-align:center; border-top:1px solid #ffffff08; }
 
     /* leaderboard */
     .lb-list { display:flex; flex-direction:column; gap:8px; }
     .lb-row { display:flex; align-items:center; gap:10px; background:var(--dark2); border:1px solid #ffffff0A; border-radius:12px; padding:12px; }
-    .lb-rank { font-family:'Orbitron',sans-serif; font-size:15px; min-width:26px; text-align:center; }
+    .lb-rank { font-family:'Marcellus',sans-serif; font-size:15px; min-width:26px; text-align:center; }
     .lb-icon { font-size:22px; }
     .lb-meta { flex:1; min-width:0; }
-    .lb-name { font-family:'Rajdhani',sans-serif; font-weight:700; font-size:15px; color:var(--parchment); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .lb-name { font-family:'Marcellus',sans-serif; font-weight:700; font-size:15px; color:var(--parchment); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
     .lb-season { font-size:10px; letter-spacing:1px; }
     .lb-bar-wrap { margin-top:5px; height:4px; background:var(--dark0); border-radius:2px; overflow:hidden; }
     .lb-stats { display:flex; gap:9px; }
     .lb-stats > div { text-align:center; }
-    .lb-stat-val { font-family:'Orbitron',sans-serif; font-size:13px; font-weight:700; }
+    .lb-stat-val { font-family:'Marcellus',sans-serif; font-size:13px; font-weight:700; }
     .lb-stat-label { font-size:8px; color:var(--ash); letter-spacing:1px; }
 
     /* generic section + panels */
-    .section-title { font-family:'Orbitron',sans-serif; font-size:13px; letter-spacing:3px; text-transform:uppercase;
+    .section-title { font-family:'Marcellus',sans-serif; font-size:13px; letter-spacing:3px; text-transform:uppercase;
       color:var(--gold); margin:4px 2px 12px; display:flex; align-items:center; gap:8px;
       text-shadow:0 0 14px var(--bg-c); }
     .section-title::after { content:''; flex:1; height:1px; opacity:.5;
       background:linear-gradient(90deg, var(--gold-dim), transparent); }
     .panel { background:linear-gradient(155deg,var(--dark2),var(--dark1)); border:1px solid #ffffff12; border-radius:14px;
       padding:16px; margin-bottom:14px; position:relative; }
-    .panel-title { font-family:'Rajdhani',sans-serif; font-size:11px; letter-spacing:3px; text-transform:uppercase;
+    .panel-title { font-family:'Marcellus',sans-serif; font-size:11px; letter-spacing:3px; text-transform:uppercase;
       color:var(--gold-dim); margin-bottom:12px; }
     .field { margin-bottom:14px; }
-    .field label { display:block; font-family:'Rajdhani',sans-serif; font-size:11px; letter-spacing:2px;
+    .field label { display:block; font-family:'Marcellus',sans-serif; font-size:11px; letter-spacing:2px;
       text-transform:uppercase; color:var(--ash); margin-bottom:6px; }
     .input, select.input, textarea.input { width:100%; background:var(--dark0); border:1px solid var(--gold-dim);
       border-radius:10px; padding:12px 14px; color:var(--parchment); font-size:15px; outline:none; -webkit-appearance:none; }
@@ -298,15 +349,15 @@
     textarea.input { resize:vertical; min-height:60px; }
     .result-row { display:flex; gap:8px; }
     .result-btn { flex:1; padding:13px 4px; border-radius:10px; border:1.5px solid #ffffff14; background:var(--dark0);
-      color:var(--ash); font-family:'Rajdhani',sans-serif; font-weight:700; font-size:14px; letter-spacing:1px; text-transform:uppercase; }
+      color:var(--ash); font-family:'Marcellus',sans-serif; font-weight:700; font-size:14px; letter-spacing:1px; text-transform:uppercase; }
     .result-btn.win.sel { border-color:var(--win); color:var(--win); background:#4CAF5018; }
     .result-btn.loss.sel { border-color:var(--loss); color:var(--loss); background:#C0392B18; }
     .result-btn.tie.sel { border-color:var(--tie); color:var(--tie); background:#E0843A18; }
     .btn-primary { width:100%; padding:14px; border:none; border-radius:10px; background:linear-gradient(135deg,var(--gold-dim),var(--gold));
-      color:#02110a; font-family:'Orbitron',sans-serif; font-weight:700; font-size:14px; letter-spacing:2px; text-transform:uppercase;
+      color:#02110a; font-family:'Marcellus',sans-serif; font-weight:700; font-size:14px; letter-spacing:2px; text-transform:uppercase;
       box-shadow:0 0 18px var(--glow); }
     .btn-ghost { width:100%; padding:12px; border:1px solid var(--gold-dim); border-radius:10px; background:transparent;
-      color:var(--gold); font-family:'Rajdhani',sans-serif; font-weight:700; font-size:13px; letter-spacing:2px; text-transform:uppercase; }
+      color:var(--gold); font-family:'Marcellus',sans-serif; font-weight:700; font-size:13px; letter-spacing:2px; text-transform:uppercase; }
     .btn-row { display:flex; gap:8px; }
 
     /* history list */
@@ -315,47 +366,122 @@
     .hist-row.win { border-left-color:var(--win); } .hist-row.loss { border-left-color:var(--loss); } .hist-row.tie { border-left-color:var(--tie); }
     .hist-icon { font-size:20px; }
     .hist-main { flex:1; min-width:0; }
-    .hist-line { font-family:'Rajdhani',sans-serif; font-weight:700; font-size:14px; color:var(--parchment); }
+    .hist-line { font-family:'Marcellus',sans-serif; font-weight:700; font-size:14px; color:var(--parchment); }
     .hist-sub { font-size:11px; color:var(--ash); margin-top:1px; }
-    .hist-res { font-family:'Orbitron',sans-serif; font-size:12px; font-weight:700; }
+    .hist-res { font-family:'Marcellus',sans-serif; font-size:12px; font-weight:700; }
     .hist-res.win { color:var(--win); } .hist-res.loss { color:var(--loss); } .hist-res.tie { color:var(--tie); }
     .hist-del { background:transparent; border:none; color:var(--dark4); font-size:16px; padding:4px; }
 
     /* dashboard chips */
     .stat-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-bottom:14px; }
     .stat-chip { background:linear-gradient(155deg,var(--dark2),var(--dark1)); border:1px solid #ffffff12; border-radius:12px; padding:13px; }
-    .stat-chip-val { font-family:'Orbitron',sans-serif; font-size:22px; font-weight:900; color:var(--gold); }
-    .stat-chip-label { font-family:'Rajdhani',sans-serif; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--ash); margin-top:2px; }
+    .stat-chip-val { font-family:'Marcellus',sans-serif; font-size:22px; font-weight:900; color:var(--gold); }
+    .stat-chip-label { font-family:'Marcellus',sans-serif; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--ash); margin-top:2px; }
 
     /* matchup chips */
     .mu-row { display:flex; align-items:center; gap:10px; padding:9px 0; border-top:1px solid #ffffff08; }
     .mu-row:first-child { border-top:none; }
     .mu-icon { font-size:18px; }
-    .mu-name { flex:1; font-family:'Rajdhani',sans-serif; font-weight:600; font-size:14px; }
-    .mu-rec { font-family:'Orbitron',sans-serif; font-size:12px; font-weight:700; }
+    .mu-name { flex:1; font-family:'Marcellus',sans-serif; font-weight:600; font-size:14px; }
+    .mu-rec { font-family:'Marcellus',sans-serif; font-size:12px; font-weight:700; }
 
     /* randomizer / theme tiles */
     .tile-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; }
     .theme-tile { border:1.5px solid #ffffff14; border-radius:12px; padding:12px; background:var(--dark0); text-align:left; }
     .theme-tile.sel { border-color:var(--gold); }
-    .theme-name { font-family:'Rajdhani',sans-serif; font-weight:700; font-size:13px; letter-spacing:1px; text-transform:uppercase; }
+    .theme-name { font-family:'Marcellus',sans-serif; font-weight:700; font-size:13px; letter-spacing:1px; text-transform:uppercase; }
     .theme-swatches { display:flex; gap:5px; margin-top:8px; }
     .sw { width:18px; height:18px; border-radius:5px; border:1px solid #ffffff20; }
     .rand-result { text-align:center; padding:22px 12px; }
     .rand-icon { font-size:54px; margin-bottom:8px; filter:drop-shadow(0 0 14px var(--glow)); }
-    .rand-name { font-family:'Orbitron',sans-serif; font-size:22px; font-weight:900; color:var(--parchment); letter-spacing:2px; }
-    .rand-season { font-family:'Rajdhani',sans-serif; font-size:12px; letter-spacing:2px; text-transform:uppercase; margin-top:4px; }
+    .rand-name { font-family:'Marcellus',sans-serif; font-size:22px; font-weight:900; color:var(--parchment); letter-spacing:2px; }
+    .rand-season { font-family:'Marcellus',sans-serif; font-size:12px; letter-spacing:2px; text-transform:uppercase; margin-top:4px; }
+
+    /* avatars */
+    .avatar { position:relative; flex-shrink:0; border-radius:50%; display:flex; align-items:center; justify-content:center;
+      background:linear-gradient(150deg,var(--dark3),var(--dark0)); overflow:hidden;
+      box-shadow:inset 0 1px 0 #ffffff12, 0 2px 6px #00000055; }
+    .avatar::before { content:''; position:absolute; inset:0; border-radius:50%; padding:2px;
+      background:conic-gradient(from 220deg, var(--ring-a), var(--ring-b), var(--ring-a));
+      -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite:xor; mask-composite:exclude; }
+    .avatar img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
+    .avatar-emoji { line-height:1; filter:drop-shadow(0 1px 2px #00000088); }
+    .avatar-up { position:relative; flex-shrink:0; cursor:pointer; display:inline-flex; }
+    .avatar-up .cam { position:absolute; bottom:-2px; right:-2px; width:19px; height:19px; border-radius:50%;
+      background:var(--gold); color:#1a0e04; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center;
+      box-shadow:0 1px 4px #000000aa; border:1.5px solid var(--dark1); }
+    .avatar-up:active .cam { transform:scale(.9); }
+
+    /* segmented toggle */
+    .seg { display:flex; background:var(--dark0); border:1px solid var(--gold-dim); border-radius:10px; padding:3px; gap:3px; }
+    .seg-btn { flex:1; padding:9px 6px; border:none; background:transparent; border-radius:7px; color:var(--ash);
+      font-family:'Marcellus',sans-serif; font-weight:700; font-size:12px; letter-spacing:1.5px; text-transform:uppercase; transition:.18s; }
+    .seg-btn.sel { background:linear-gradient(135deg,var(--gold-dim),var(--gold)); color:#1a0e04; box-shadow:0 0 12px var(--glow); }
+    .seg-btn:disabled { opacity:.35; }
+
+    /* quick own actions */
+    .quick-own { display:flex; gap:8px; margin-bottom:12px; }
+    .quick-btn { flex:1; padding:9px 6px; border:1px solid var(--gold-dim); border-radius:9px; background:var(--dark2);
+      color:var(--gold); font-family:'Marcellus',sans-serif; font-weight:700; font-size:11.5px; letter-spacing:1px;
+      text-transform:uppercase; display:flex; align-items:center; justify-content:center; gap:6px; }
+    .quick-btn:active { background:#ffffff0d; }
+    .quick-btn.clear { color:var(--ash); border-color:#ffffff1a; }
+
+    /* randomizer reel / slot machine */
+    .reel { position:relative; margin:6px 0 4px; border-radius:14px; overflow:hidden;
+      border:1.5px solid var(--gold-dim); background:linear-gradient(180deg,var(--dark0),var(--dark2));
+      box-shadow:inset 0 0 24px #000000aa; padding:26px 12px; text-align:center; min-height:150px;
+      display:flex; flex-direction:column; align-items:center; justify-content:center; }
+    .reel::before { content:''; position:absolute; inset:0; pointer-events:none; opacity:.5;
+      background:repeating-linear-gradient(0deg, transparent 0 3px, #00000033 3px 4px);
+      mask:linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent); }
+    .reel.spin { border-color:var(--gold); box-shadow:inset 0 0 28px #000000aa, 0 0 22px var(--bg-c); }
+    .reel-cell { position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; gap:8px; }
+    .reel-name { font-family:'Marcellus',sans-serif; font-weight:900; font-size:20px; letter-spacing:2px; color:var(--parchment); }
+    .reel-season { font-family:'Marcellus',sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; }
+    .reel-flash { animation:reelFlash .09s ease-out; }
+    @keyframes reelFlash { 0%{transform:translateY(-14px) scale(.9); opacity:.2; filter:blur(2px);} 100%{transform:none; opacity:1; filter:none;} }
+    .reel-land { animation:reelLand .5s cubic-bezier(.2,1.4,.4,1); }
+    @keyframes reelLand { 0%{transform:scale(.7); opacity:0;} 60%{transform:scale(1.08);} 100%{transform:none; opacity:1;} }
+    .reel-caption { position:relative; z-index:1; margin-top:12px; font-family:'Marcellus',sans-serif; font-weight:700;
+      font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); }
+    /* player columns */
+    .pick-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin:14px 0 4px; }
+    .pick-grid.single { grid-template-columns:1fr; max-width:230px; margin-left:auto; margin-right:auto; }
+    .pick-card { position:relative; display:flex; flex-direction:column; align-items:center; text-align:center; gap:7px;
+      padding:15px 8px 13px; border:1px solid var(--dark4); border-radius:13px; min-height:128px; justify-content:center;
+      background:linear-gradient(162deg, var(--dark3), var(--dark1)); box-shadow:0 3px 10px #00000040;
+      transition:border-color .25s, box-shadow .25s; }
+    .pick-card.rolling { border-color:var(--gold); box-shadow:0 0 18px var(--bg-c), inset 0 0 18px #00000055; }
+    .pick-card.locked { border-color:var(--gold-dim); }
+    .pick-card.first { border-color:var(--gold); box-shadow:0 0 20px var(--bg-c), 0 3px 10px #00000040; }
+    .pick-player { font-family:'Marcellus',sans-serif; font-weight:700; font-size:9px; letter-spacing:2px;
+      text-transform:uppercase; color:var(--gold); }
+    .pick-inner { display:flex; flex-direction:column; align-items:center; gap:6px; }
+    .pick-name { font-family:'Marcellus',sans-serif; font-weight:700; font-size:14px; line-height:1.1; letter-spacing:1px; color:var(--parchment); }
+    .pick-season { font-family:'Marcellus',sans-serif; font-size:10px; letter-spacing:2px; text-transform:uppercase; }
+    .avatar.ghost { opacity:.4; }
+    .roll-anim { animation:rollFlick .12s ease-out; }
+    @keyframes rollFlick { 0%{ opacity:.25; transform:translateY(-10px) scale(.85); filter:blur(2px);} 100%{ opacity:1; transform:none; filter:none;} }
+    .lock-anim { animation:lockPop .46s cubic-bezier(.2,1.5,.4,1); }
+    @keyframes lockPop { 0%{ transform:scale(.6); opacity:.3;} 60%{ transform:scale(1.12);} 100%{ transform:none; opacity:1;} }
+    .photo-row { display:flex; gap:8px; margin-bottom:14px; }
+    .photo-btn { flex:1; padding:10px; border:1px dashed var(--gold-dim); border-radius:10px; background:var(--dark0);
+      color:var(--gold); font-family:'Marcellus',sans-serif; font-weight:700; font-size:12px; letter-spacing:1px;
+      text-transform:uppercase; text-align:center; cursor:pointer; }
+    .photo-btn.remove { border-style:solid; color:var(--loss); border-color:var(--loss); }
 
     /* reference */
     .ref-item { border-top:1px solid #ffffff0c; padding:11px 0; }
     .ref-item:first-child { border-top:none; }
-    .ref-term { font-family:'Rajdhani',sans-serif; font-weight:700; font-size:14px; color:var(--gold); letter-spacing:.5px; }
+    .ref-term { font-family:'Marcellus',sans-serif; font-weight:700; font-size:14px; color:var(--gold); letter-spacing:.5px; }
     .ref-def { font-size:13px; color:var(--ash); margin-top:3px; line-height:1.45; }
 
     /* empty */
     .empty { text-align:center; padding:70px 0; color:var(--dark4); }
     .empty-icon { font-size:44px; margin-bottom:14px; }
-    .empty-title { font-family:'Rajdhani',sans-serif; font-size:18px; color:var(--ash); }
+    .empty-title { font-family:'Marcellus',sans-serif; font-size:18px; color:var(--ash); }
     .empty-sub { font-size:13px; color:var(--dark4); margin-top:6px; }
 
     /* modal */
@@ -365,7 +491,7 @@
       border:1px solid var(--gold-dim); border-bottom:none; border-radius:18px 18px 0 0; padding:18px 16px calc(18px + env(safe-area-inset-bottom));
       box-shadow:0 -10px 40px #000000cc; }
     .modal-grip { width:40px; height:4px; background:var(--dark4); border-radius:2px; margin:0 auto 14px; }
-    .modal-title { font-family:'Orbitron',sans-serif; font-size:16px; letter-spacing:2px; text-transform:uppercase;
+    .modal-title { font-family:'Marcellus',sans-serif; font-size:16px; letter-spacing:2px; text-transform:uppercase;
       color:var(--gold); text-align:center; margin-bottom:4px; }
     .modal-icon { text-align:center; font-size:34px; margin-bottom:6px; }
   </style>
@@ -447,10 +573,14 @@ const HERO = {}; ALL_CHARACTERS.forEach(c => HERO[c.id]=c);
 const SEASONS = ["All","Season 1","Season 2","Marvel","X-Men","Holiday","Outcasts","Single Release Heroes","Vanguard"];
 
 const THEMES = [
-  { id:"vitality", name:"Ivy Bloom", swatches:["#2FA75D","#E11D5B","#03090A"] },
-  { id:"verdant", name:"Verdant Spring", swatches:["#5DBB63","#F06AA0","#04100A"] },
-  { id:"deeproot", name:"Deeproot Jade", swatches:["#1FB18A","#E0A33A","#02100C"] },
-  { id:"mosswood", name:"Mosswood", swatches:["#8FB339","#D98E2B","#080A04"] },
+  { id:"emberforge", name:"Emberforge", swatches:["#E8A13A","#E0452F","#0B0705"] },
+  { id:"crimson", name:"Crimson Keep", swatches:["#C99A4B","#D23A3A","#0C0606"] },
+  { id:"sunspire", name:"Sunspire", swatches:["#F2C14E","#4FA0E0","#0E0A06"] },
+  { id:"verdant", name:"Verdant Crown", swatches:["#C9A24B","#3FA36A","#060B06"] },
+  { id:"abyssal", name:"Abyssal Tide", swatches:["#39C9B0","#2BB39A","#03100E"] },
+  { id:"frost", name:"Frostforge", swatches:["#7FC8E8","#4FA3D9","#04080C"] },
+  { id:"amethyst", name:"Royal Amethyst", swatches:["#C9A24B","#8E5BD6","#07060E"] },
+  { id:"nightbloom", name:"Nightbloom", swatches:["#C77BE0","#E0459B","#0A060E"] },
 ];
 
 const REFERENCE = [
@@ -470,12 +600,14 @@ const KEY = "dicethrone_data_v2";
 const LEGACY_KEY = "dicethrone_stats_v1";
 
 function freshData() {
-  return { schema:2, matches:[], legacy:{}, owned:{}, prefs:{ theme:"vitality" } };
+  return { schema:2, matches:[], legacy:{}, owned:{}, avatars:{}, prefs:{ theme:"emberforge" } };
 }
 function loadData() {
+  const VALID_THEMES = ["emberforge","crimson","sunspire","verdant","abyssal","frost","amethyst","nightbloom"];
+  const norm = (d)=>{ if(!d.avatars)d.avatars={}; if(!VALID_THEMES.includes(d.prefs.theme))d.prefs.theme="emberforge"; return d; };
   try {
     const raw = localStorage.getItem(KEY);
-    if (raw) { const d = JSON.parse(raw); return { ...freshData(), ...d, prefs:{ ...freshData().prefs, ...(d.prefs||{}) } }; }
+    if (raw) { const d = JSON.parse(raw); return norm({ ...freshData(), ...d, prefs:{ ...freshData().prefs, ...(d.prefs||{}) } }); }
   } catch(e) {}
   // migrate v1 counters → legacy baseline (no one loses progress)
   const d = freshData();
@@ -518,8 +650,28 @@ function Dice({ wins, losses, ties }) {
   return el('div',{className:'dice'}, [0,1,2,3,4,5].map(i=>el('div',{key:i,className:'pip'+(i<lit?' lit':'')})));
 }
 
+/* circular hero avatar — custom photo if set, else themed emoji medallion */
+function Avatar({ char, src, size=52, cls }) {
+  const ring = char.color || '#C9A24B';
+  return el('div',{className:'avatar'+(cls?' '+cls:''), style:{ width:size, height:size, '--ring-a':ring, '--ring-b':'var(--glow)' }},
+    src ? el('img',{src, alt:char.name})
+        : el('span',{className:'avatar-emoji', style:{fontSize:Math.round(size*0.5)}}, char.icon));
+}
+
+/* downscale an uploaded image to a small square JPEG so localStorage stays light */
+function fileToAvatar(file, cb){
+  const reader=new FileReader();
+  reader.onload=()=>{ const img=new Image();
+    img.onload=()=>{ const S=168, c=document.createElement('canvas'); c.width=S; c.height=S;
+      const ctx=c.getContext('2d'); const scale=Math.max(S/img.width, S/img.height);
+      const w=img.width*scale, h=img.height*scale; ctx.drawImage(img,(S-w)/2,(S-h)/2,w,h);
+      try{ cb(c.toDataURL('image/jpeg',0.82)); }catch(e){ cb(null); } };
+    img.onerror=()=>cb(null); img.src=reader.result; };
+  reader.onerror=()=>cb(null); reader.readAsDataURL(file);
+}
+
 /* ---------- Roster card ---------- */
-function Card({ char, rec, owned, onUpdate, onToggleOwn, onOpen }) {
+function Card({ char, rec, owned, avatar, onUpdate, onToggleOwn, onOpen, onSetAvatar }) {
   const { wins, losses, ties } = rec;
   const total = wins+losses+ties;
   const pct = total>0 ? Math.round((wins/total)*100) : 0;
@@ -527,7 +679,11 @@ function Card({ char, rec, owned, onUpdate, onToggleOwn, onOpen }) {
   const btn = (label,action,cls)=>el('button',{className:'act-btn '+cls, onClick:()=>onUpdate(action)},label);
   return el('div',{className:'card'},
     el('div',{className:'card-top'},
-      el(Dice,{wins,losses,ties}),
+      el('label',{className:'avatar-up', title:'Tap to set '+char.name+'\u2019s picture'},
+        el(Avatar,{char, src:avatar, size:54}),
+        el('span',{className:'cam'}, avatar?'\u21BB':'\uFF0B'),
+        el('input',{type:'file', accept:'image/*', style:{display:'none'},
+          onChange:e=>{ if(e.target.files[0]) onSetAvatar(e.target.files[0]); e.target.value=''; }})),
       el('div',{className:'card-info'},
         el('div',{className:'card-name-row'},
           el('div',{className:'card-name'},char.name),
@@ -554,8 +710,9 @@ function Card({ char, rec, owned, onUpdate, onToggleOwn, onOpen }) {
 }
 
 /* ---------- Hero detail modal ---------- */
-function HeroModal({ data, heroId, onClose }) {
+function HeroModal({ data, heroId, onClose, onSetAvatar, onClearAvatar }) {
   const char = HERO[heroId];
+  const avatar = data.avatars[heroId];
   const rec = recordFor(data, heroId);
   const total = rec.wins+rec.losses+rec.ties;
   const mus = matchupsFor(data, heroId);
@@ -563,9 +720,14 @@ function HeroModal({ data, heroId, onClose }) {
   return el('div',{className:'modal-overlay', onClick:onClose},
     el('div',{className:'modal', onClick:e=>e.stopPropagation()},
       el('div',{className:'modal-grip'}),
-      el('div',{className:'modal-icon'},char.icon),
+      el('div',{style:{display:'flex',justifyContent:'center',marginBottom:8}}, el(Avatar,{char, src:avatar, size:88})),
       el('div',{className:'modal-title'},char.name),
-      el('div',{style:{textAlign:'center',color:char.color,fontFamily:"'Rajdhani'",fontSize:12,letterSpacing:2,textTransform:'uppercase',marginBottom:14}},char.season),
+      el('div',{style:{textAlign:'center',color:char.color,fontFamily:"'Marcellus'",fontSize:12,letterSpacing:2,textTransform:'uppercase',marginBottom:14}},char.season),
+      el('div',{className:'photo-row'},
+        el('label',{className:'photo-btn'}, avatar?'\u21BB Replace Picture':'\uFF0B Add Picture',
+          el('input',{type:'file', accept:'image/*', style:{display:'none'},
+            onChange:e=>{ if(e.target.files[0]) onSetAvatar(heroId, e.target.files[0]); e.target.value=''; }})),
+        avatar && el('button',{className:'photo-btn remove', onClick:()=>onClearAvatar(heroId)},'\u2715 Remove')),
       el('div',{className:'stat-grid'},
         [['Games',total],['Win %',total>0?Math.round(rec.wins/total*100)+'%':'—'],['Record',`${rec.wins}-${rec.losses}-${rec.ties}`],['W/L',rec.losses>0?(rec.wins/rec.losses).toFixed(2):(rec.wins>0?'∞':'—')]]
           .map(([l,v])=>el('div',{key:l,className:'stat-chip'},
@@ -579,7 +741,7 @@ function HeroModal({ data, heroId, onClose }) {
               const o=HERO[mu.id];
               const col = mu.w>mu.l?'var(--win)':mu.l>mu.w?'var(--loss)':'var(--ash)';
               return el('div',{key:mu.id,className:'mu-row'},
-                el('div',{className:'mu-icon'},o?o.icon:'❔'),
+                o?el(Avatar,{char:o, src:data.avatars[o.id], size:30}):el('div',{className:'mu-icon'},'\u2754'),
                 el('div',{className:'mu-name'},o?o.name:'Unknown'),
                 el('div',{className:'mu-rec',style:{color:col}},`${mu.w}-${mu.l}${mu.t?'-'+mu.t:''}`));
             })
@@ -658,6 +820,13 @@ function App() {
   const [detailHero,setDetailHero] = useState(null);
   const [rand,setRand] = useState(null);
   const [draftCount,setDraftCount] = useState(2);
+  const [draftMode,setDraftMode] = useState("all");
+  const [spinning,setSpinning] = useState(false);
+  const emptySlots = (n)=>Array.from({length:Math.max(1,n)},()=>({hero:null,locked:false,tick:0}));
+  const [slots,setSlots] = useState(()=>emptySlots(2));
+  const [activeSlot,setActiveSlot] = useState(-1);
+  const spinRef = React.useRef([]);
+  useEffect(()=>()=>{ spinRef.current.forEach(t=>clearTimeout(t)); },[]);
 
   useEffect(()=>{ try{ localStorage.setItem(KEY, JSON.stringify(data)); }catch(e){} }, [data]);
   useEffect(()=>{ document.documentElement.setAttribute('data-theme', data.prefs.theme); }, [data.prefs.theme]);
@@ -671,6 +840,12 @@ function App() {
     return { ...d, legacy:{ ...d.legacy, [heroId]:leg } };
   });
   const toggleOwn = (heroId)=>setData(d=>{ const o={...d.owned}; if(o[heroId])delete o[heroId]; else o[heroId]=true; return {...d, owned:o}; });
+  const markOwned = (ids)=>setData(d=>{ const o={...d.owned}; ids.forEach(id=>o[id]=true); return {...d, owned:o}; });
+  const clearOwned = (ids)=>setData(d=>{ const o={...d.owned}; ids.forEach(id=>delete o[id]); return {...d, owned:o}; });
+  const setAvatar = (heroId,file)=>fileToAvatar(file,(url)=>{ if(!url){ alert('Could not read that image.'); return; }
+    setData(d=>{ try{ const next={...d, avatars:{...d.avatars, [heroId]:url}}; localStorage.setItem(KEY, JSON.stringify(next)); return next; }
+      catch(e){ alert('Storage is full — try removing a few pictures or exporting a backup.'); return d; } }); });
+  const clearAvatar = (heroId)=>setData(d=>{ const a={...d.avatars}; delete a[heroId]; return {...d, avatars:a}; });
   const saveMatch = (m)=>{ setData(d=>({ ...d, matches:[...d.matches, m] })); setLogOpen(false); };
   const deleteMatch = (id)=>setData(d=>({ ...d, matches:d.matches.filter(m=>m.id!==id) }));
   const resetAll = ()=>{ if(window.confirm("Reset ALL data (stats, matches, owned)? Cannot be undone.")) setData(freshData()); };
@@ -680,7 +855,11 @@ function App() {
     const url = URL.createObjectURL(blob); const a=document.createElement('a');
     a.href=url; a.download='dice-throne-backup-'+new Date().toISOString().slice(0,10)+'.json'; a.click(); URL.revokeObjectURL(url);
   };
-  const importData = (file)=>{ const r=new FileReader(); r.onload=()=>{ try{ const d=JSON.parse(r.result); if(!d.schema)throw 0; setData({ ...freshData(), ...d, prefs:{ ...freshData().prefs, ...(d.prefs||{}) } }); alert('Backup imported.'); }catch(e){ alert('That file is not a valid backup.'); } }; r.readAsText(file); };
+  const importData = (file)=>{ const r=new FileReader(); r.onload=()=>{ try{ const d=JSON.parse(r.result); if(!d.schema)throw 0;
+    const merged={ ...freshData(), ...d, prefs:{ ...freshData().prefs, ...(d.prefs||{}) } };
+    if(!merged.avatars)merged.avatars={};
+    if(!["emberforge","crimson","sunspire","verdant","abyssal","frost","amethyst","nightbloom"].includes(merged.prefs.theme))merged.prefs.theme="emberforge";
+    setData(merged); alert('Backup imported.'); }catch(e){ alert('That file is not a valid backup.'); } }; r.readAsText(file); };
 
   /* derived */
   const filtered = ALL_CHARACTERS.filter(c =>
@@ -707,11 +886,11 @@ function App() {
   /* ---- shared chrome ---- */
   const backdrop = el('div',{className:'tree-backdrop'},
     el('svg',{className:'layer-far',viewBox:'0 0 400 200',preserveAspectRatio:'xMidYMax slice',style:{height:'28vh'}},
-      el('g',{fill:'#0F4A28'},
+      el('g',{className:'tree-fill-far'},
         el('path',{d:'M20 200 L20 120 Q5 110 15 95 Q0 90 12 75 Q-2 65 18 58 Q10 45 30 45 Q22 30 42 32 Q40 15 60 20 Q65 5 80 15 Q88 2 100 12 Q110 0 118 14 Q132 8 130 25 Q148 22 140 38 Q158 38 148 52 Q162 56 148 68 Q158 80 140 82 L140 200 Z'}),
         el('path',{d:'M260 200 L260 130 Q248 122 258 110 Q244 104 256 92 Q242 84 258 76 Q250 64 268 62 Q260 48 280 48 Q274 34 294 36 Q290 20 310 24 Q314 10 330 18 Q340 6 350 16 Q362 10 362 26 Q378 26 370 40 Q386 42 376 56 Q390 64 376 74 L376 200 Z'}))),
     el('svg',{className:'layer-near',viewBox:'0 0 400 220',preserveAspectRatio:'xMidYMax slice',style:{height:'20vh'}},
-      el('g',{fill:'#0A3018'},
+      el('g',{className:'tree-fill-near'},
         el('path',{d:'M0 220 L0 150 Q-10 140 2 128 Q-12 120 4 108 Q-10 96 8 90 Q0 75 22 76 Q14 58 38 60 Q34 42 58 46 Q56 28 80 32 Q86 16 104 26 Q116 10 128 24 Q142 14 144 32 Q162 28 156 46 Q176 46 168 62 Q186 68 172 80 L172 220 Z'}),
         el('path',{d:'M310 220 L310 145 Q298 136 310 122 Q294 114 308 100 Q292 90 310 82 Q300 66 324 66 Q316 46 342 48 Q338 28 364 32 Q368 14 390 22 Q400 8 400 24 L400 220 Z'}))));
 
@@ -720,7 +899,7 @@ function App() {
   const groveFog = el('div',{className:'grove-fog'});
   const groveRoots = el('div',{className:'grove-roots'},
     el('svg',{viewBox:'0 0 400 120',preserveAspectRatio:'xMidYMax slice'},
-      el('g',{fill:'none',stroke:'#0A3018',strokeWidth:'3',strokeLinecap:'round'},
+      el('g',{className:'roots-stroke',fill:'none',strokeWidth:'3',strokeLinecap:'round'},
         el('path',{d:'M40 120 Q44 90 30 70 Q20 56 34 40 M44 90 Q60 78 58 58 M30 70 Q14 64 8 48'}),
         el('path',{d:'M150 120 Q146 86 162 66 Q172 52 160 34 M162 66 Q142 56 138 38 M162 66 Q182 60 190 44'}),
         el('path',{d:'M270 120 Q274 92 260 72 Q250 58 264 42 M260 72 Q244 66 238 50 M274 92 Q292 82 296 62'}),
@@ -732,7 +911,7 @@ function App() {
   const header = el('div',{className:'header'},
     el('div',{className:'header-inner'},
       el('div',{className:'header-eyebrow'},'❧ The Most Elder of Contenders ❧'),
-      el('h1',null, el('span',null,'DICE '),'THRONE'),
+      el('h1',null, el('span',null,'Dice '),'Throne'),
       el('div',{className:'header-tag'}, 'Age of Vitality'),
       el('div',{className:'spirit-row'},
         el('span',{className:'sg'}, el('span',{className:'spirit-glyph'},'🌱'),'Seedling'),
@@ -763,12 +942,15 @@ function App() {
             el('span',null,s), filter===s&&el('span',null,'🌿'))))) ),
     (filter==="All"||filter==="Vanguard") && el('div',{className:'season-banner vanguard'}, el('span',null,'✨'), el('span',null,el('strong',null,'Vanguard'),' — Arriving 2026.')),
     (filter==="All"||filter==="Single Release Heroes") && el('div',{className:'season-banner single'}, el('span',null,'🌟'), el('span',null,el('strong',null,'Single Release Heroes'),' — Alchemist & Mystic Brawler.')),
+    filtered.length>0 && el('div',{className:'quick-own'},
+      el('button',{className:'quick-btn', onClick:()=>markOwned(filtered.map(c=>c.id))}, '\u2713 Own '+(filter==='All'?'All':filter)),
+      el('button',{className:'quick-btn clear', onClick:()=>clearOwned(filtered.map(c=>c.id))}, '\u2715 Clear These')),
     el('div',{className:'grid'},
-      filtered.map(c=>el(Card,{ key:c.id, char:c, rec:recordFor(data,c.id), owned:!!data.owned[c.id],
-        onUpdate:a=>adjust(c.id,a), onToggleOwn:()=>toggleOwn(c.id), onOpen:()=>setDetailHero(c.id) }))),
+      filtered.map(c=>el(Card,{ key:c.id, char:c, rec:recordFor(data,c.id), owned:!!data.owned[c.id], avatar:data.avatars[c.id],
+        onUpdate:a=>adjust(c.id,a), onToggleOwn:()=>toggleOwn(c.id), onOpen:()=>setDetailHero(c.id), onSetAvatar:(f)=>setAvatar(c.id,f) }))),
     filtered.length===0 && el('div',{className:'empty'},
       el('div',{className:'empty-icon'},'🎲'), el('div',{className:'empty-title'},'No heroes found'),
-      el('div',{className:'empty-sub'},'Try a different search, season, or turn off "Owned only".'))
+      el('div',{className:'empty-sub'},'Try a different search or season.'))
   );
 
   const recentAll = data.matches.slice().reverse();
@@ -800,9 +982,9 @@ function App() {
         .map(([v,l])=>el('div',{key:l,className:'stat-chip'}, el('div',{className:'stat-chip-val'},v), el('div',{className:'stat-chip-label'},l)))),
     topHero && el('div',{className:'panel', style:{textAlign:'center'}},
       el('div',{className:'panel-title'},'Top Hero'),
-      el('div',{style:{fontSize:40}},topHero.icon),
-      el('div',{style:{fontFamily:"'Orbitron'",fontWeight:900,fontSize:18,letterSpacing:2,marginTop:4}},topHero.name),
-      el('div',{style:{color:'var(--gold)',fontFamily:"'Rajdhani'",letterSpacing:1,marginTop:2}}, Math.round(topHero.wins/topHero.total*100)+`% · ${topHero.wins}-${topHero.losses}-${topHero.ties}`)),
+      el('div',{style:{display:'flex',justifyContent:'center',margin:'2px 0 4px'}}, el(Avatar,{char:topHero, src:data.avatars[topHero.id], size:64})),
+      el('div',{style:{fontFamily:"'Marcellus'",fontWeight:900,fontSize:18,letterSpacing:2,marginTop:4}},topHero.name),
+      el('div',{style:{color:'var(--gold)',fontFamily:"'Marcellus'",letterSpacing:1,marginTop:2}}, Math.round(topHero.wins/topHero.total*100)+`% · ${topHero.wins}-${topHero.losses}-${topHero.ties}`)),
     el('div',{className:'panel-title', style:{marginLeft:2}}, 'Top 10 — ranked by wins & win %'),
     leaderboard.length===0
       ? el('div',{className:'empty'}, el('div',{className:'empty-icon'},'🎲'), el('div',{className:'empty-title'},'The Hall awaits'), el('div',{className:'empty-sub'},'Log your first battle.'))
@@ -813,7 +995,7 @@ function App() {
             return el('div',{key:c.id, className:'lb-row',
               style:i<3?{background:`linear-gradient(135deg,${c.color}22 0%, var(--dark2) 100%)`, borderColor:c.color+'55'}:{}, onClick:()=>setDetailHero(c.id)},
               el('div',{className:'lb-rank'}, medals[i]||`#${i+1}`),
-              el('div',{className:'lb-icon'},c.icon),
+              el(Avatar,{char:c, src:data.avatars[c.id], size:38}),
               el('div',{className:'lb-meta'},
                 el('div',{className:'lb-name'},c.name),
                 el('div',{className:'lb-season',style:{color:c.color}},c.season),
@@ -824,26 +1006,71 @@ function App() {
           }))
   );
 
-  const draftPool = ownedCount>0 ? ALL_CHARACTERS.filter(c=>data.owned[c.id]) : ALL_CHARACTERS;
-  const rollRandom = ()=>{ const n=Math.max(1,Math.min(draftCount,draftPool.length)); const pool=[...draftPool]; const picks=[];
-    for(let i=0;i<n;i++){ picks.push(pool.splice(Math.floor(Math.random()*pool.length),1)[0]); } setRand({ picks, firstPlayer:Math.floor(Math.random()*Math.max(1,draftCount))+1 }); };
+  const ownedList = ALL_CHARACTERS.filter(c=>data.owned[c.id]);
+  const draftPool = draftMode==='owned' ? ownedList : ALL_CHARACTERS;
+  const poolReady = draftPool.length>0;
+  const changeCount = (n)=>{ if(spinning)return; setDraftCount(n); setSlots(emptySlots(n)); setRand(null); setActiveSlot(-1); };
+  const resetDraft = ()=>{ setSlots(emptySlots(draftCount)); setRand(null); setActiveSlot(-1); };
+  const rollRandom = ()=>{
+    if(spinning || !poolReady) return;
+    spinRef.current.forEach(t=>clearTimeout(t)); spinRef.current=[];
+    const cols = draftCount;
+    const avail = Math.min(cols, draftPool.length);
+    const pool=[...draftPool]; const picks=[];
+    for(let i=0;i<avail;i++){ picks.push(pool.splice(Math.floor(Math.random()*pool.length),1)[0]); }
+    const firstPlayer = Math.floor(Math.random()*cols)+1;
+    setRand(null); setSlots(emptySlots(cols)); setSpinning(true);
+    const runSlot=(i)=>{
+      if(i>=cols){ setActiveSlot(-1); setSpinning(false); setRand({ picks, firstPlayer }); return; }
+      const pick=picks[i];
+      const next=()=>{ spinRef.current.push(setTimeout(()=>runSlot(i+1), 150)); };
+      if(!pick){ setSlots(s=>s.map((sl,idx)=>idx===i?{hero:null,locked:true,tick:sl.tick+1}:sl)); next(); return; }
+      setActiveSlot(i);
+      const seq=[]; for(let k=0;k<7;k++)seq.push(44); [60,90,140,200].forEach(d=>seq.push(d));
+      let t=0;
+      seq.forEach(dl=>{ t+=dl; spinRef.current.push(setTimeout(()=>{
+        const r=draftPool[Math.floor(Math.random()*draftPool.length)];
+        setSlots(s=>s.map((sl,idx)=>idx===i?{hero:r,locked:false,tick:sl.tick+1}:sl));
+      }, t)); });
+      t+=130;
+      spinRef.current.push(setTimeout(()=>{
+        setSlots(s=>s.map((sl,idx)=>idx===i?{hero:pick,locked:true,tick:sl.tick+1}:sl));
+        next();
+      }, t));
+    };
+    runSlot(0);
+  };
 
   const toolsView = el('div',null,
     el('div',{className:'section-title'},'🎲 Draft & Randomizer'),
     el('div',{className:'panel'},
-      el('div',{className:'panel-title'}, ownedCount>0?'Pulling from your owned heroes':'Pulling from all heroes (mark owned on Roster)'),
       el('div',{className:'field'},
-        el('label',null,'How many heroes / players?'),
-        el('select',{className:'input', value:draftCount, onChange:e=>setDraftCount(+e.target.value)},
+        el('label',null,'Draft pool'),
+        el('div',{className:'seg'},
+          el('button',{className:'seg-btn'+(draftMode==='all'?' sel':''), onClick:()=>{ if(spinning)return; setDraftMode('all'); resetDraft(); }},'All Heroes'),
+          el('button',{className:'seg-btn'+(draftMode==='owned'?' sel':''), disabled:ownedList.length===0,
+            onClick:()=>{ if(spinning||!ownedList.length)return; setDraftMode('owned'); resetDraft(); }},'My Owned ('+ownedList.length+')'))),
+      draftMode==='owned' && ownedList.length===0 &&
+        el('div',{style:{color:'var(--ash)',fontSize:12,marginTop:-6,marginBottom:12,lineHeight:1.4}},'No heroes marked owned yet — use “Own All” on the Roster tab.'),
+      el('div',{className:'field'},
+        el('label',null,'How many players?'),
+        el('select',{className:'input', value:draftCount, disabled:spinning, onChange:e=>changeCount(+e.target.value)},
           [1,2,3,4,5,6].map(n=>el('option',{key:n,value:n},n)))),
-      el('button',{className:'btn-primary', onClick:rollRandom},'🎲 Randomize'),
-      rand && el('div',null,
-        el('div',{style:{height:14}}),
-        rand.picks.map((p,i)=>el('div',{key:p.id,className:'rand-result',style:{padding:'10px 12px',borderTop:i?'1px solid #ffffff0c':'none'}},
-          el('span',{style:{fontSize:30,marginRight:10}},p.icon),
-          el('span',{className:'rand-name',style:{fontSize:18}},p.name),
-          el('div',{className:'rand-season',style:{color:p.color}},p.season))),
-        el('div',{style:{textAlign:'center',marginTop:10,fontFamily:"'Rajdhani'",letterSpacing:1,color:'var(--gold)'}},'First player: Player '+rand.firstPlayer))),
+      el('div',{className:'pick-grid'+(draftCount===1?' single':'')},
+        slots.map((sl,i)=>{
+          const rolling = spinning && activeSlot===i && !sl.locked;
+          const isFirst = !!rand && (i+1===rand.firstPlayer) && sl.locked;
+          const ph = { name:'—', icon:'🎲', color:'#8a7a5e' };
+          const innerCls = rolling ? 'roll-anim' : ((sl.locked&&sl.hero) ? 'lock-anim' : '');
+          return el('div',{key:i, className:'pick-card'+(rolling?' rolling':'')+(sl.locked&&sl.hero?' locked':'')+(isFirst?' first':'')},
+            el('div',{className:'pick-player'}, 'Player '+(i+1)+(isFirst?' ⚑':'')),
+            el('div',{key:sl.tick, className:'pick-inner '+innerCls},
+              el(Avatar,{char: sl.hero||ph, src: sl.hero?data.avatars[sl.hero.id]:null, size:46, cls: sl.hero?'':'ghost'}),
+              el('div',{className:'pick-name'}, sl.hero?sl.hero.name:(sl.locked?'—':'Ready')),
+              el('div',{className:'pick-season', style:{color: sl.hero?sl.hero.color:'var(--ash)'}}, sl.hero?sl.hero.season:(rolling?'rolling…':'awaiting'))));
+        })),
+      el('button',{className:'btn-primary', disabled:spinning||!poolReady, style:(spinning||!poolReady)?{opacity:.55}:{}, onClick:rollRandom}, spinning?'Rolling…':(rand?'🎲 Randomize Again':'🎲 Randomize')),
+      rand && !spinning && el('div',{style:{textAlign:'center',marginTop:14,fontFamily:"'Marcellus'",letterSpacing:1.5,color:'var(--gold)',fontWeight:700}},'⚑ First player: Player '+rand.firstPlayer)),
 
     el('div',{className:'section-title'},'📖 Rules'),
     el('a',{className:'rulepop-launch', href:'https://dice-throne.rulepop.com/', target:'_blank', rel:'noopener'},
@@ -873,14 +1100,14 @@ function App() {
   const NAV = [['roster','⚔️','Roster'],['log','📜','Log'],['hall','🏆','Mighty'],['tools','🧰','Tools']];
 
   return el('div',null,
-    groveBg, backdrop, groveRoots, groveFog, ...motes, header,
+    ...motes, header,
     el('div',{className:'main'},
       view==='roster'&&rosterView, view==='log'&&logView, view==='hall'&&hallView, view==='tools'&&toolsView),
     el('div',{className:'bottom-nav'},
       NAV.map(([v,ic,lb])=>el('button',{key:v,className:'nav-btn'+(view===v?' active':''),onClick:()=>setView(v)},
         el('span',{className:'nav-btn-icon'},ic), lb))),
     logOpen && el(LogModal,{ defaultHero:logHero, onSave:saveMatch, onClose:()=>setLogOpen(false) }),
-    detailHero && el(HeroModal,{ data, heroId:detailHero, onClose:()=>setDetailHero(null) })
+    detailHero && el(HeroModal,{ data, heroId:detailHero, onClose:()=>setDetailHero(null), onSetAvatar:setAvatar, onClearAvatar:clearAvatar })
   );
 }
 
