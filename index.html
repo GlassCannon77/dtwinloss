@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Dice Throne" />
@@ -113,7 +113,7 @@
     }
     body { padding-top:env(safe-area-inset-top); padding-bottom:env(safe-area-inset-bottom); }
     button { font-family:'Inter',sans-serif; touch-action:manipulation; cursor:pointer; }
-    input,select,textarea { font-family:'Inter',sans-serif; }
+    input,select,textarea { font-family:'Inter',sans-serif; font-size:16px; }
     ::-webkit-scrollbar { width:0; }
 
     /* backdrop */
@@ -220,7 +220,7 @@
     /* search + filter */
     .search-wrap { position:relative; margin-bottom:10px; }
     .search-input { width:100%; background:var(--dark2); border:1px solid var(--gold-dim); border-radius:10px;
-      padding:12px 14px 12px 40px; color:var(--parchment); font-size:15px; outline:none; -webkit-appearance:none; }
+      padding:12px 14px 12px 40px; color:var(--parchment); font-size:16px; outline:none; -webkit-appearance:none; }
     .search-input::placeholder { color:var(--dark4); }
     .search-icon { position:absolute; left:13px; top:50%; transform:translateY(-50%); color:var(--dark4); font-size:15px; pointer-events:none; }
 
@@ -344,7 +344,7 @@
     .field label { display:block; font-family:'Marcellus',sans-serif; font-size:11px; letter-spacing:2px;
       text-transform:uppercase; color:var(--ash); margin-bottom:6px; }
     .input, select.input, textarea.input { width:100%; background:var(--dark0); border:1px solid var(--gold-dim);
-      border-radius:10px; padding:12px 14px; color:var(--parchment); font-size:15px; outline:none; -webkit-appearance:none; }
+      border-radius:10px; padding:12px 14px; color:var(--parchment); font-size:16px; outline:none; -webkit-appearance:none; }
     select.input { background-image:none; }
     textarea.input { resize:vertical; min-height:60px; }
     .result-row { display:flex; gap:8px; }
@@ -353,6 +353,17 @@
     .result-btn.win.sel { border-color:var(--win); color:var(--win); background:#4CAF5018; }
     .result-btn.loss.sel { border-color:var(--loss); color:var(--loss); background:#C0392B18; }
     .result-btn.tie.sel { border-color:var(--tie); color:var(--tie); background:#E0843A18; }
+    .hp-row { display:flex; gap:8px; }
+    .hp-cell { flex:1; }
+    .hp-cell label { display:block; font-family:'Marcellus',sans-serif; font-size:10px; letter-spacing:1px;
+      text-transform:uppercase; color:var(--ash); margin-bottom:5px; }
+    .hp-input { width:100%; background:var(--dark0); border:1px solid var(--gold-dim); border-radius:10px;
+      padding:11px 12px; color:var(--parchment); font-size:16px; outline:none; -webkit-appearance:none; text-align:center; }
+    .hp-input::placeholder { color:var(--dark4); }
+    .hp-hint { font-size:10px; color:var(--ash); margin-top:7px; letter-spacing:.5px; line-height:1.4; }
+    .hp-chip { display:inline-flex; align-items:center; gap:3px; font-size:10px; font-weight:600; color:var(--loss);
+      background:#C0392B14; border:1px solid #C0392B40; border-radius:999px; padding:1px 7px; margin:0 2px;
+      vertical-align:middle; letter-spacing:.4px; }
     .btn-primary { width:100%; padding:14px; border:none; border-radius:10px; background:linear-gradient(135deg,var(--gold-dim),var(--gold));
       color:#02110a; font-family:'Marcellus',sans-serif; font-weight:700; font-size:14px; letter-spacing:2px; text-transform:uppercase;
       box-shadow:0 0 18px var(--glow); }
@@ -756,7 +767,7 @@ function HeroModal({ data, heroId, onClose, onSetAvatar, onClearAvatar }) {
                 el('div',{className:'hist-icon'},m.result==='win'?'🏆':m.result==='loss'?'💀':'🤝'),
                 el('div',{className:'hist-main'},
                   el('div',{className:'hist-line'}, o?`vs ${o.name}`:'Match'),
-                  el('div',{className:'hist-sub'}, new Date(m.date).toLocaleDateString() + (m.notes?(' · '+m.notes):''))),
+                  el('div',{className:'hist-sub'}, new Date(m.date).toLocaleDateString(), hpChip(m), (m.notes?(' · '+m.notes):''))),
                 el('div',{className:'hist-res '+m.result}, m.result.toUpperCase()));
             })
       ),
@@ -766,11 +777,21 @@ function HeroModal({ data, heroId, onClose, onSetAvatar, onClearAvatar }) {
 }
 
 /* ---------- Log a Match modal ---------- */
+function hpChip(m){
+  if(m.hpSelf==null && m.hpOpp==null) return null;
+  const parts=[];
+  if(m.hpSelf!=null) parts.push('You '+m.hpSelf);
+  if(m.hpOpp!=null) parts.push('Opp '+m.hpOpp);
+  return el('span',{className:'hp-chip'}, '❤ '+parts.join(' / '));
+}
+
 function LogModal({ defaultHero, onSave, onClose }) {
   const [heroId,setHeroId] = useState(defaultHero||"");
   const [oppId,setOppId] = useState("");
   const [result,setResult] = useState("win");
   const [notes,setNotes] = useState("");
+  const [hpSelf,setHpSelf] = useState("");
+  const [hpOpp,setHpOpp] = useState("");
   const opts = ALL_CHARACTERS.map(c=>el('option',{key:c.id,value:c.id},c.name));
   return el('div',{className:'modal-overlay', onClick:onClose},
     el('div',{className:'modal', onClick:e=>e.stopPropagation()},
@@ -794,6 +815,18 @@ function LogModal({ defaultHero, onSave, onClose }) {
         )
       ),
       el('div',{className:'field'},
+        el('label',null,'❤ Final Health (optional)'),
+        el('div',{className:'hp-row'},
+          el('div',{className:'hp-cell'},
+            el('label',null,'You'),
+            el('input',{className:'hp-input', type:'number', inputMode:'numeric', value:hpSelf, placeholder:'—', onChange:e=>setHpSelf(e.target.value)})),
+          el('div',{className:'hp-cell'},
+            el('label',null,'Opponent'),
+            el('input',{className:'hp-input', type:'number', inputMode:'numeric', value:hpOpp, placeholder:'—', onChange:e=>setHpOpp(e.target.value)}))
+        ),
+        el('div',{className:'hp-hint'},'Leave blank to skip. Record the ending HP and it shows right in your log.')
+      ),
+      el('div',{className:'field'},
         el('label',null,'Notes (optional)'),
         el('textarea',{className:'input', value:notes, placeholder:'KOTH, close game, big ultimate…', onChange:e=>setNotes(e.target.value)})
       ),
@@ -801,7 +834,8 @@ function LogModal({ defaultHero, onSave, onClose }) {
         el('button',{className:'btn-ghost', style:{flex:'0 0 90px'}, onClick:onClose},'Cancel'),
         el('button',{className:'btn-primary', onClick:()=>{
           if(!heroId){ alert('Pick your hero first.'); return; }
-          onSave({ id:Date.now()+'-'+Math.random().toString(36).slice(2,7), date:Date.now(), heroId, opponentId:oppId||null, result, notes:notes.trim() });
+          const hp=v=>{ const t=String(v).trim(); if(t==='')return null; const n=parseInt(t,10); return isNaN(n)?null:n; };
+          onSave({ id:Date.now()+'-'+Math.random().toString(36).slice(2,7), date:Date.now(), heroId, opponentId:oppId||null, result, notes:notes.trim(), hpSelf:hp(hpSelf), hpOpp:hp(hpOpp) });
         }},'Save Match')
       )
     )
@@ -967,7 +1001,7 @@ function App() {
             el('div',{className:'hist-icon'}, h?h.icon:'🎲'),
             el('div',{className:'hist-main'},
               el('div',{className:'hist-line'}, (h?h.name:'Hero') + (o?` vs ${o.name}`:'')),
-              el('div',{className:'hist-sub'}, new Date(m.date).toLocaleDateString() + (m.notes?(' · '+m.notes):''))),
+              el('div',{className:'hist-sub'}, new Date(m.date).toLocaleDateString(), hpChip(m), (m.notes?(' · '+m.notes):''))),
             el('div',{className:'hist-res '+m.result}, m.result.toUpperCase()),
             el('button',{className:'hist-del', onClick:()=>deleteMatch(m.id), title:'Delete'},'✕'));
         })
