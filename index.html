@@ -391,6 +391,13 @@
     .cloud-warn-x { flex:none; width:26px; height:26px; padding:0; border:none; background:transparent;
       color:var(--ash); font-size:15px; cursor:pointer; border-radius:6px; }
     .cloud-warn-x:hover { background:#ffffff14; color:var(--parchment); }
+    .dt-toast { position:fixed; left:50%; bottom:84px; transform:translateX(-50%); z-index:10000;
+      max-width:90%; width:max-content; padding:13px 18px; border-radius:12px; cursor:pointer;
+      background:linear-gradient(150deg,#1f3a24,#13241a); border:1px solid #4FAE6E66;
+      color:#EAFBEF; font-size:13px; line-height:1.45; text-align:center; box-shadow:0 10px 30px #000a;
+      animation:toastIn .35s ease; }
+    .dt-toast.err { background:linear-gradient(150deg,#3a1f1f,#241313); border-color:#E0452F66; color:#FBEAEA; }
+    @keyframes toastIn { from{ opacity:0; transform:translate(-50%,10px); } to{ opacity:1; transform:translate(-50%,0); } }
 
     /* history list */
     .hist-row { display:flex; align-items:center; gap:10px; background:var(--dark2); border:1px solid #ffffff0c;
@@ -933,6 +940,12 @@ function App() {
   const [slots,setSlots] = useState(()=>emptySlots(2));
   const [activeSlot,setActiveSlot] = useState(-1);
   const [cloud,setCloud] = useState({ ready:false, signedIn:false, anon:false, email:null });
+  const [toast,setToast] = useState(null);
+  useEffect(()=>{
+    const onToast=(e)=>{ setToast(e.detail); clearTimeout(window.__dtToastT); window.__dtToastT=setTimeout(()=>setToast(null),5000); };
+    window.addEventListener('dt-toast', onToast);
+    return ()=> window.removeEventListener('dt-toast', onToast);
+  },[]);
   const [warnDismissed,setWarnDismissed] = useState(()=>{ try{ return localStorage.getItem('dt_warn_dismissed')==='1'; }catch(e){ return false; } });
   const dataRef = React.useRef(data);
   useEffect(()=>{ dataRef.current = data; },[data]);
@@ -1256,7 +1269,8 @@ function App() {
       NAV.map(([v,ic,lb])=>el('button',{key:v,className:'nav-btn'+(view===v?' active':''),onClick:()=>setView(v)},
         el('span',{className:'nav-btn-icon'},ic), lb))),
     logOpen && el(LogModal,{ defaultHero:logHero, onSave:saveMatch, onClose:()=>setLogOpen(false) }),
-    detailHero && el(HeroModal,{ data, heroId:detailHero, onClose:()=>setDetailHero(null), onSetAvatar:setAvatar, onClearAvatar:clearAvatar })
+    detailHero && el(HeroModal,{ data, heroId:detailHero, onClose:()=>setDetailHero(null), onSetAvatar:setAvatar, onClearAvatar:clearAvatar }),
+    toast && el('div',{className:'dt-toast'+(toast.kind==='err'?' err':''), onClick:()=>setToast(null)}, toast.msg)
   );
 }
 
@@ -1335,6 +1349,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(el(App));
     if(immediate) write(); else saveTimer = setTimeout(write, 1500);
   }
 
+  function toast(msg, kind){ window.dispatchEvent(new CustomEvent('dt-toast',{ detail:{ msg, kind:kind||'ok' } })); }
+
   window.DTCloud = {
     save(data){ queueSave(data, false); },
     appReady(){ appReady=true; if(pendingRemote!==undefined){ const r=pendingRemote; pendingRemote=undefined; deliver(r); } },
@@ -1342,17 +1358,30 @@ ReactDOM.createRoot(document.getElementById('root')).render(el(App));
       const provider = new GoogleAuthProvider();
       const cur = auth.currentUser;
       try{
-        if(cur && cur.isAnonymous) await linkWithPopup(cur, provider);
-        else await signInWithPopup(auth, provider);
+        if(cur && cur.isAnonymous){
+          const res = await linkWithPopup(cur, provider);     // upgrade anon → Google, keeps same uid + data
+          uid = res.user.uid;
+          emit();                                             // linking does NOT fire onAuthStateChanged — refresh UI now
+          queueSave(window.__dtGetLocal && window.__dtGetLocal(), true); // make sure cloud holds this data
+          toast('✓ Synced as '+(res.user.email||'your account')+'. Your stats are backed up and will follow you across devices.');
+        } else {
+          const res = await signInWithPopup(auth, provider);
+          uid = res.user.uid; emit();
+          toast('✓ Synced as '+(res.user.email||'your account')+'. Your stats are backed up.');
+        }
       }catch(e){
         if(e.code==='auth/credential-already-in-use' || e.code==='auth/email-already-in-use'){
-          // This Google account already has cloud data — switch to it (keep a local backup first).
           try{ localStorage.setItem('dt_presignin_backup', localStorage.getItem(KEY)||''); }catch(_){}
           const cred = GoogleAuthProvider.credentialFromError(e);
-          if(cred) await signInWithCredential(auth, cred); else alert('Sign-in failed. Please try again.');
+          if(cred){ await signInWithCredential(auth, cred); toast('✓ Signed in. Loaded your saved stats from the cloud.'); }
+          else toast('Sign-in failed — please try again.', 'err');
         } else if(e.code==='auth/popup-closed-by-user' || e.code==='auth/cancelled-popup-request'){
-          /* user backed out */
-        } else { console.warn('[cloud] sign-in error', e); alert('Sign-in failed: '+(e.message||e.code||'unknown')); }
+          /* user backed out — stay quiet */
+        } else if(e.code==='auth/unauthorized-domain'){
+          toast('This web address isn\u2019t authorized in Firebase yet.', 'err');
+        } else if(e.code==='auth/popup-blocked' || e.code==='auth/operation-not-supported-in-this-environment'){
+          toast('Your browser blocked the sign-in popup. Allow popups and try again.', 'err');
+        } else { console.warn('[cloud] sign-in error', e); toast('Sign-in failed: '+(e.code||e.message||'unknown'), 'err'); }
       }
     },
     async signOutCloud(){ try{ await signOut(auth); location.reload(); }catch(e){} }
