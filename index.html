@@ -370,6 +370,27 @@
     .btn-ghost { width:100%; padding:12px; border:1px solid var(--gold-dim); border-radius:10px; background:transparent;
       color:var(--gold); font-family:'Marcellus',sans-serif; font-weight:700; font-size:13px; letter-spacing:2px; text-transform:uppercase; }
     .btn-row { display:flex; gap:8px; }
+    /* cloud sync */
+    .btn-gold { width:100%; padding:13px; border:1px solid var(--gold); border-radius:10px;
+      background:linear-gradient(160deg,var(--gold),var(--gold-dim)); color:#1a1206;
+      font-family:'Marcellus',sans-serif; font-weight:700; font-size:13px; letter-spacing:2px; text-transform:uppercase;
+      box-shadow:0 0 16px #E8A13A33; cursor:pointer; }
+    .btn-gold:disabled { opacity:.5; box-shadow:none; cursor:default; }
+    .cloud-status { font-family:'Marcellus',sans-serif; font-size:13px; letter-spacing:1px; }
+    .cloud-status.ok { color:var(--gold); }
+    .cloud-status.ok b { color:var(--parchment); font-weight:700; }
+    .cloud-status.warn { color:#E8B05A; }
+    .cloud-warn { display:flex; align-items:center; gap:10px; margin:0 14px 4px; padding:11px 13px;
+      background:linear-gradient(150deg,#3a2a12,#241a0c); border:1px solid #E8A13A55; border-radius:12px;
+      box-shadow:0 6px 18px #0007; animation:warnIn .4s ease; }
+    @keyframes warnIn { from{ opacity:0; transform:translateY(-6px); } to{ opacity:1; transform:none; } }
+    .cloud-warn-txt { flex:1; color:#F0E4D0; font-size:12px; line-height:1.45; }
+    .cloud-warn-btn { flex:none; padding:8px 14px; border:none; border-radius:8px;
+      background:linear-gradient(160deg,var(--gold),var(--gold-dim)); color:#1a1206;
+      font-family:'Marcellus',sans-serif; font-weight:700; font-size:12px; letter-spacing:1px; cursor:pointer; }
+    .cloud-warn-x { flex:none; width:26px; height:26px; padding:0; border:none; background:transparent;
+      color:var(--ash); font-size:15px; cursor:pointer; border-radius:6px; }
+    .cloud-warn-x:hover { background:#ffffff14; color:var(--parchment); }
 
     /* history list */
     .hist-row { display:flex; align-items:center; gap:10px; background:var(--dark2); border:1px solid #ffffff0c;
@@ -911,10 +932,36 @@ function App() {
   const emptySlots = (n)=>Array.from({length:Math.max(1,n)},()=>({hero:null,locked:false,tick:0}));
   const [slots,setSlots] = useState(()=>emptySlots(2));
   const [activeSlot,setActiveSlot] = useState(-1);
+  const [cloud,setCloud] = useState({ ready:false, signedIn:false, anon:false, email:null });
+  const [warnDismissed,setWarnDismissed] = useState(()=>{ try{ return localStorage.getItem('dt_warn_dismissed')==='1'; }catch(e){ return false; } });
+  const dataRef = React.useRef(data);
+  useEffect(()=>{ dataRef.current = data; },[data]);
   const spinRef = React.useRef([]);
   useEffect(()=>()=>{ spinRef.current.forEach(t=>clearTimeout(t)); },[]);
 
-  useEffect(()=>{ try{ localStorage.setItem(KEY, JSON.stringify(data)); }catch(e){} }, [data]);
+  /* ---- cloud sync bridge (talks to the Firebase module) ---- */
+  useEffect(()=>{
+    window.__dtGetLocal = ()=> dataRef.current;
+    window.__dtApplyCloud = (remote)=>{
+      if(!remote) return;
+      const VT=["emberforge","crimson","sunspire","verdant","abyssal","frost","amethyst","nightbloom"];
+      const merged={ ...freshData(), ...remote, prefs:{ ...freshData().prefs, ...(remote.prefs||{}) } };
+      if(!merged.avatars)merged.avatars={};
+      if(!VT.includes(merged.prefs.theme))merged.prefs.theme="emberforge";
+      setData(merged);
+    };
+    const onCloud=(e)=> setCloud(c=>({ ...c, ...e.detail }));
+    window.addEventListener('dt-cloud', onCloud);
+    window.__dtAppReady = true;
+    window.dispatchEvent(new CustomEvent('dt-app-ready'));
+    if(window.DTCloud) window.DTCloud.appReady();
+    return ()=> window.removeEventListener('dt-cloud', onCloud);
+  },[]);
+  const signIn = ()=>{ if(window.DTCloud) window.DTCloud.signInGoogle(); };
+  const signOutCloud = ()=>{ if(window.confirm('Sign out of cloud sync on this device? Your stats stay safe in the cloud and on this device.') && window.DTCloud) window.DTCloud.signOutCloud(); };
+  const dismissWarn = ()=>{ setWarnDismissed(true); try{ localStorage.setItem('dt_warn_dismissed','1'); }catch(e){} };
+
+  useEffect(()=>{ try{ localStorage.setItem(KEY, JSON.stringify(data)); }catch(e){} if(window.DTCloud) window.DTCloud.save(data); }, [data]);
   useEffect(()=>{ document.documentElement.setAttribute('data-theme', data.prefs.theme); }, [data.prefs.theme]);
   useEffect(()=>{ if(!dropOpen)return; const c=()=>setDropOpen(false); document.addEventListener('click',c); return ()=>document.removeEventListener('click',c); },[dropOpen]);
 
@@ -1173,9 +1220,21 @@ function App() {
           el('div',{className:'theme-name'},t.name),
           el('div',{className:'theme-swatches'}, t.swatches.map((s,i)=>el('div',{key:i,className:'sw',style:{background:s}}))))))),
 
-    el('div',{className:'section-title'},'💾 Data'),
+    el('div',{className:'section-title'},'☁ Cloud Sync'),
     el('div',{className:'panel'},
-      el('div',{style:{color:'var(--ash)',fontSize:12,marginBottom:12,lineHeight:1.5}},'Back up your stats before Firebase cloud sync arrives, or move them to a new device.'),
+      cloud.signedIn
+        ? el('div',null,
+            el('div',{className:'cloud-status ok'}, '☁ Synced as ', el('b',null, cloud.email||'your account')),
+            el('div',{style:{color:'var(--ash)',fontSize:12,margin:'8px 0 12px',lineHeight:1.5}}, 'Your stats are backed up and follow you to any device you sign in on.'),
+            el('button',{className:'btn-ghost', onClick:signOutCloud}, 'Sign Out'))
+        : el('div',null,
+            el('div',{className:'cloud-status warn'}, cloud.ready ? '⚠ Saved on this device only' : '⏳ Connecting…'),
+            el('div',{style:{color:'var(--ash)',fontSize:12,margin:'8px 0 12px',lineHeight:1.5}}, 'Right now your stats live only on this device — switch phones or clear your browser and they\u2019re gone. Sign in with Google (one tap, no password) to back them up and sync across every device.'),
+            el('button',{className:'btn-gold', onClick:signIn, disabled:!cloud.ready}, cloud.ready ? 'Sign in with Google' : 'Connecting…'))),
+
+    el('div',{className:'section-title'},'💾 Backup'),
+    el('div',{className:'panel'},
+      el('div',{style:{color:'var(--ash)',fontSize:12,marginBottom:12,lineHeight:1.5}},'Export a copy of your stats, or move them to a new device by hand.'),
       el('div',{className:'btn-row', style:{marginBottom:10}},
         el('button',{className:'btn-ghost', onClick:exportData},'⬇ Export Backup'),
         el('label',{className:'btn-ghost', style:{textAlign:'center',cursor:'pointer'}}, '⬆ Import',
@@ -1187,6 +1246,10 @@ function App() {
 
   return el('div',null,
     ...motes, header,
+    (cloud.ready && !cloud.signedIn && !warnDismissed) && el('div',{className:'cloud-warn'},
+      el('span',{className:'cloud-warn-txt'}, '⚠ Your stats are saved on this device only. Sign in to keep them safe across devices.'),
+      el('button',{className:'cloud-warn-btn', onClick:signIn}, 'Sign in'),
+      el('button',{className:'cloud-warn-x', onClick:dismissWarn, 'aria-label':'Dismiss'}, '✕')),
     el('div',{className:'main'},
       view==='roster'&&rosterView, view==='log'&&logView, view==='hall'&&hallView, view==='tools'&&toolsView),
     el('div',{className:'bottom-nav'},
@@ -1201,5 +1264,110 @@ ReactDOM.createRoot(document.getElementById('root')).render(el(App));
 (function(){var s=document.getElementById('splash');if(!s)return;var start=performance.now();function go(){var wait=Math.max(0,650-(performance.now()-start));setTimeout(function(){s.classList.add('hide');setTimeout(function(){s.remove();},600);},wait);}requestAnimationFrame(function(){requestAnimationFrame(go);});})();
 
 </script>
+
+<!-- ===================== FIREBASE CLOUD SYNC ===================== -->
+<!-- Your project config. These values are safe to be public; your data is
+     protected by the Firestore security rules, not by hiding these keys. -->
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js';
+  import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged,
+           signInAnonymously, GoogleAuthProvider, signInWithPopup, linkWithPopup,
+           signInWithCredential, signOut }
+    from 'https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js';
+  import { getFirestore, doc, getDoc, setDoc, serverTimestamp }
+    from 'https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js';
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBFWVgRJavzQcJ3jE43VI6jZ0Sgu798MA0",
+    authDomain: "dtwinloss.firebaseapp.com",
+    projectId: "dtwinloss",
+    storageBucket: "dtwinloss.firebasestorage.app",
+    messagingSenderId: "287599079029",
+    appId: "1:287599079029:web:eea763cc0ce54274ff123c",
+    measurementId: "G-FWJWQPCWVL"
+  };
+
+  const KEY = "dicethrone_data_v2";
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db   = getFirestore(app);
+
+  let uid=null, lastSynced=null, pendingRemote, appReady=false, saveTimer=null;
+
+  function emit(){
+    const u = auth.currentUser;
+    window.dispatchEvent(new CustomEvent('dt-cloud',{ detail:{
+      ready:true,
+      signedIn: !!(u && !u.isAnonymous),
+      anon:     !!(u && u.isAnonymous),
+      email:    (u && !u.isAnonymous) ? (u.email||null) : null
+    }}));
+  }
+  const hasContent = (d)=> !!(d && ((d.matches&&d.matches.length) || (d.legacy&&Object.keys(d.legacy).length) ||
+                                    (d.owned&&Object.keys(d.owned).length) || (d.avatars&&Object.keys(d.avatars).length)));
+
+  function deliver(remote){
+    if(!appReady){ pendingRemote = remote===undefined ? null : remote; return; }
+    if(remote && hasContent(remote)){
+      lastSynced = JSON.stringify(remote);
+      if(window.__dtApplyCloud) window.__dtApplyCloud(remote);
+    }else{
+      const local = window.__dtGetLocal && window.__dtGetLocal();
+      if(local && hasContent(local)){ queueSave(local, true); }
+    }
+  }
+  async function pull(){
+    if(!uid) return;
+    try{
+      const snap = await getDoc(doc(db,'users',uid));
+      deliver(snap.exists() ? (snap.data().data || null) : null);
+    }catch(e){ console.warn('[cloud] pull failed', e && e.code); }
+  }
+  function queueSave(data, immediate){
+    if(!uid || !data) return;
+    const json = JSON.stringify(data);
+    if(json === lastSynced) return;
+    clearTimeout(saveTimer);
+    const write = async ()=>{
+      try{ await setDoc(doc(db,'users',uid), { data, v:2, updatedAt: serverTimestamp() }, { merge:true }); lastSynced = json; }
+      catch(e){ console.warn('[cloud] save failed', e && e.code); }
+    };
+    if(immediate) write(); else saveTimer = setTimeout(write, 1500);
+  }
+
+  window.DTCloud = {
+    save(data){ queueSave(data, false); },
+    appReady(){ appReady=true; if(pendingRemote!==undefined){ const r=pendingRemote; pendingRemote=undefined; deliver(r); } },
+    async signInGoogle(){
+      const provider = new GoogleAuthProvider();
+      const cur = auth.currentUser;
+      try{
+        if(cur && cur.isAnonymous) await linkWithPopup(cur, provider);
+        else await signInWithPopup(auth, provider);
+      }catch(e){
+        if(e.code==='auth/credential-already-in-use' || e.code==='auth/email-already-in-use'){
+          // This Google account already has cloud data — switch to it (keep a local backup first).
+          try{ localStorage.setItem('dt_presignin_backup', localStorage.getItem(KEY)||''); }catch(_){}
+          const cred = GoogleAuthProvider.credentialFromError(e);
+          if(cred) await signInWithCredential(auth, cred); else alert('Sign-in failed. Please try again.');
+        } else if(e.code==='auth/popup-closed-by-user' || e.code==='auth/cancelled-popup-request'){
+          /* user backed out */
+        } else { console.warn('[cloud] sign-in error', e); alert('Sign-in failed: '+(e.message||e.code||'unknown')); }
+      }
+    },
+    async signOutCloud(){ try{ await signOut(auth); location.reload(); }catch(e){} }
+  };
+
+  setPersistence(auth, browserLocalPersistence).catch(()=>{}).finally(()=>{
+    onAuthStateChanged(auth, async (user)=>{
+      if(!user){ try{ await signInAnonymously(auth); }catch(e){ console.warn('[cloud] anon sign-in failed', e && e.code); } return; }
+      uid = user.uid; lastSynced = null; emit(); await pull();
+    });
+  });
+
+  if(window.__dtAppReady) window.DTCloud.appReady();
+  window.addEventListener('dt-app-ready', ()=> window.DTCloud.appReady());
+</script>
+
 </body>
 </html>
