@@ -587,8 +587,14 @@
     .friend-found { display:flex; align-items:center; justify-content:space-between; gap:10px;
       margin-top:10px; padding:10px 12px; border-radius:10px; background:var(--dark2);
       border:1px solid var(--dark3); }
+    .friend-found-tag { font-family:'Marcellus',sans-serif; font-size:16px; color:var(--parchment);
+      flex:1 1 auto; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    /* inline row: input grows, button hugs its label (fixes the width:100% collision) */
+    .friend-input-row { display:flex; gap:8px; align-items:stretch; }
+    .friend-input-row .input { flex:1 1 auto; min-width:0; width:auto; }
+    .fbtn { width:auto; flex:0 0 auto; white-space:nowrap; padding:11px 16px; font-size:12px; }
     .friend-tag-badge { font-family:'Marcellus',sans-serif; font-size:12px; letter-spacing:1px;
-      color:var(--gold); padding:6px 10px; border:1px solid var(--gold-dim); border-radius:8px; white-space:nowrap; }
+      color:var(--gold); padding:6px 10px; border:1px solid var(--gold-dim); border-radius:8px; white-space:nowrap; flex:0 0 auto; }
     .friend-row { display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:12px;
       background:var(--dark2); border:1px solid var(--dark3); }
     .friend-row.me { background:linear-gradient(135deg, var(--card-glow-soft), var(--dark2)); border-color:var(--gold-dim); }
@@ -1115,41 +1121,40 @@ function FriendsView({ cloud, friends, data, onSignIn }){
 
   return el('div',null,
     el('div',{className:'section-title'},'👥 Friends'),
-    el('div',{className:'panel', style:{display:'flex',alignItems:'center',justifyContent:'space-between',gap:10}},
-      el('div',null,
-        el('div',{style:{color:'var(--ash)',fontSize:11,letterSpacing:1,textTransform:'uppercase'}},'Your gamertag'),
-        el('div',{style:{fontFamily:"'Marcellus'",fontSize:18,color:'var(--parchment)',letterSpacing:1}}, friends.myTag)),
-      el('div',{style:{display:'flex',gap:6,alignItems:'center'}},
-        el('input',{className:'input', style:{width:120,padding:'8px 10px'}, value:tag, maxLength:20, onChange:e=>setTag(e.target.value)}),
-        el('button',{className:'btn-ghost', style:{padding:'8px 12px',flex:'0 0 auto'}, onClick:saveTag, disabled:savingTag||tag.trim().length<3||tag===friends.myTag},'Change'))),
+    el('div',{className:'panel'},
+      el('div',{style:{color:'var(--ash)',fontSize:11,letterSpacing:1.5,textTransform:'uppercase',marginBottom:3}},'Your gamertag'),
+      el('div',{style:{fontFamily:"'Marcellus'",fontSize:20,color:'var(--parchment)',letterSpacing:1,marginBottom:12,wordBreak:'break-word'}}, friends.myTag),
+      el('div',{className:'friend-input-row'},
+        el('input',{className:'input', value:tag, maxLength:20, placeholder:'New gamertag…', onChange:e=>setTag(e.target.value)}),
+        el('button',{className:'btn-ghost fbtn', onClick:saveTag, disabled:savingTag||tag.trim().length<3||tag===friends.myTag},'Change'))),
     tagErr && el('div',{style:{color:'var(--loss)',fontSize:12,margin:'-6px 2px 8px'}}, tagErr),
 
     el('div',{className:'panel'},
       el('div',{className:'panel-title'},'Add a friend'),
-      el('div',{style:{display:'flex',gap:8,marginTop:8}},
+      el('div',{className:'friend-input-row', style:{marginTop:8}},
         el('input',{className:'input', value:q, placeholder:'Enter a gamertag…', onChange:e=>setQ(e.target.value), onKeyDown:e=>{ if(e.key==='Enter')doSearch(); }}),
-        el('button',{className:'btn-gold', style:{flex:'0 0 auto',padding:'0 16px'}, onClick:doSearch, disabled:searching||!q.trim()}, searching?'…':'Search')),
+        el('button',{className:'btn-gold fbtn', onClick:doSearch, disabled:searching||!q.trim()}, searching?'…':'Search')),
       result!==undefined && (
         result===null ? el('div',{style:{color:'var(--ash)',fontSize:13,marginTop:10}},'No player found with that gamertag.')
         : result.self ? el('div',{style:{color:'var(--ash)',fontSize:13,marginTop:10}},'That\u2019s your own gamertag!')
         : el('div',{className:'friend-found'},
-            el('div',{style:{fontFamily:"'Marcellus'",fontSize:16,color:'var(--parchment)'}}, result.gamertag),
+            el('div',{className:'friend-found-tag'}, result.gamertag),
             alreadyFriend(result.uid) ? el('span',{className:'friend-tag-badge'},'✓ Friends')
             : alreadyOut(result.uid) ? el('span',{className:'friend-tag-badge'},'Request sent')
-            : el('button',{className:'btn-gold', style:{padding:'8px 14px'}, onClick:()=>sendReq(result.uid,result.gamertag)},'Send request')))),
+            : el('button',{className:'btn-gold fbtn', onClick:()=>sendReq(result.uid,result.gamertag)},'Send request')))),
 
     friends.incoming.length>0 && el('div',{className:'panel'},
       el('div',{className:'panel-title'},'Friend requests'),
       friends.incoming.map(r=>el('div',{key:r.from,className:'friend-found'},
-        el('div',{style:{fontFamily:"'Marcellus'",fontSize:16,color:'var(--parchment)'}}, r.tag),
-        el('div',{style:{display:'flex',gap:6}},
-          el('button',{className:'btn-gold', style:{padding:'8px 14px'}, onClick:()=>window.DTCloud.respondRequest(r.from,true)},'Accept'),
-          el('button',{className:'btn-ghost', style:{padding:'8px 12px'}, onClick:()=>window.DTCloud.respondRequest(r.from,false)},'Decline'))))),
+        el('div',{className:'friend-found-tag'}, r.tag),
+        el('div',{style:{display:'flex',gap:6,flex:'0 0 auto'}},
+          el('button',{className:'btn-gold fbtn', onClick:()=>window.DTCloud.respondRequest(r.from,true)},'Accept'),
+          el('button',{className:'btn-ghost fbtn', onClick:()=>window.DTCloud.respondRequest(r.from,false)},'Decline'))))),
 
     friends.outgoing.length>0 && el('div',{className:'panel'},
       el('div',{className:'panel-title'},'Pending sent'),
       friends.outgoing.map(o=>el('div',{key:o.to,className:'friend-found'},
-        el('div',{style:{fontFamily:"'Marcellus'",color:'var(--ash)'}}, o.tag),
+        el('div',{className:'friend-found-tag', style:{color:'var(--ash)'}}, o.tag),
         el('span',{className:'friend-tag-badge'},'Awaiting reply')))),
 
     el('div',{className:'section-title', style:{marginTop:18}},'🏅 Friends Leaderboard'),
