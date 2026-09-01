@@ -1250,6 +1250,9 @@ function App() {
   const dismissWarn = ()=>{ setWarnDismissed(true); try{ localStorage.setItem('dt_warn_dismissed','1'); }catch(e){} };
 
   useEffect(()=>{ try{ localStorage.setItem(KEY, JSON.stringify(data)); }catch(e){} if(window.DTCloud){ window.DTCloud.save(data); if(window.DTCloud.publishProfile) window.DTCloud.publishProfile(profileSummary(data)); } }, [data]);
+  // once the gamertag is known (e.g. right after sign-in / on load), push current stats immediately
+  // so friends see a full record even if we don't log anything new this session
+  useEffect(()=>{ if(cloud.signedIn && friends.myTag && window.DTCloud && window.DTCloud.publishProfile){ window.DTCloud.publishProfile(profileSummary(dataRef.current), true); } }, [friends.myTag, cloud.signedIn]);
   useEffect(()=>{ document.documentElement.setAttribute('data-theme', data.prefs.theme); }, [data.prefs.theme]);
   useEffect(()=>{ if(!dropOpen)return; const c=()=>setDropOpen(false); document.addEventListener('click',c); return ()=>document.removeEventListener('click',c); },[dropOpen]);
 
@@ -1669,13 +1672,14 @@ ReactDOM.createRoot(document.getElementById('root')).render(el(App));
     appReady(){ appReady=true; if(pendingRemote!==undefined){ const r=pendingRemote; pendingRemote=undefined; deliver(r); } },
     refreshFriends(){ emitFriends(); },
     // publish my compact public record so friends see fresh stats (debounced)
-    publishProfile(summary){
+    publishProfile(summary, immediate){
       const u=auth.currentUser; if(!uid || !u || u.isAnonymous || !myTag) return;
-      clearTimeout(profTimer);
-      profTimer=setTimeout(async ()=>{
+      const write=async ()=>{
         try{ await setDoc(doc(db,'profiles',uid), { ...summary, gamertag:myTag, tagLower:myTag.toLowerCase(), uid, updatedAt:serverTimestamp() }, { merge:true }); }
         catch(e){ console.warn('[friends] publish', e && e.code); }
-      }, 1800);
+      };
+      clearTimeout(profTimer);
+      if(immediate) write(); else profTimer=setTimeout(write, 1800);
     },
     async setGamertag(tag){
       const u=auth.currentUser;
