@@ -1383,9 +1383,9 @@ function HeroModal({ data, heroId, onClose, onSetAvatar, onClearAvatar, onToggle
         data.owned[heroId] ? '\u2713 Owned' : 'Mark as Owned'),
       onAdjust && el('div',{className:'modal-fix'},
         el('span',{className:'modal-fix-lbl'},'Fix record'),
-        el('button',{className:'hs-btn w', 'aria-label':'Remove a win', onClick:()=>onAdjust(heroId,'subWin')},'\u2212W'),
-        el('button',{className:'hs-btn l', 'aria-label':'Remove a loss', onClick:()=>onAdjust(heroId,'subLoss')},'\u2212L'),
-        el('button',{className:'hs-btn t', 'aria-label':'Remove a tie', onClick:()=>onAdjust(heroId,'subTie')},'\u2212T')),
+        el('button',{className:'hs-btn w', 'aria-label':'Remove a win', disabled:rec.wins===0, onClick:()=>onAdjust(heroId,'subWin')},'\u2212W'),
+        el('button',{className:'hs-btn l', 'aria-label':'Remove a loss', disabled:rec.losses===0, onClick:()=>onAdjust(heroId,'subLoss')},'\u2212L'),
+        el('button',{className:'hs-btn t', 'aria-label':'Remove a tie', disabled:rec.ties===0, onClick:()=>onAdjust(heroId,'subTie')},'\u2212T')),
       el('div',{className:'stat-grid'},
         [['Games',total],['Win %',total>0?Math.round(rec.wins/total*100)+'%':'—'],['Record',`${rec.wins}-${rec.losses}-${rec.ties}`],['W/L',rec.losses>0?(rec.wins/rec.losses).toFixed(2):(rec.wins>0?'∞':'—')]]
           .map(([l,v])=>el('div',{key:l,className:'stat-chip'},
@@ -1819,6 +1819,19 @@ function App() {
   const quickAdd = (heroId,action)=>{ adjust(heroId,action); setUndoStack(u=>({ ...u, [heroId]:[...(u[heroId]||[]), action] })); };
   const undoLast = (heroId)=>{ const list=undoStack[heroId]||[]; if(!list.length) return;
     adjust(heroId, INVERSE[list[list.length-1]]); setUndoStack(u=>({ ...u, [heroId]:(u[heroId]||[]).slice(0,-1) })); };
+  /* -W/-L/-T from the hero sheet: take it off the quick-tap count first; if that count is
+     already 0 the result comes from a logged match, so offer to delete that match instead */
+  const fixRecord = (heroId, action)=>{
+    const k = { subWin:'wins', subLoss:'losses', subTie:'ties' }[action];
+    const res = { subWin:'win', subLoss:'loss', subTie:'tie' }[action];
+    if (((data.legacy[heroId]||{})[k]||0) > 0) { adjust(heroId, action); return; }
+    const ms = data.matches.filter(m=>m.heroId===heroId && m.result===res)
+      .sort((a,b)=> matchTime(b)-matchTime(a) || (b.date||0)-(a.date||0));
+    if (!ms.length) return;
+    const m = ms[0], o = m.opponentId && HERO[m.opponentId];
+    const desc = matchDateLabel(m) + (o?' vs '+o.name:'') + (m.oppPlayer&&m.oppPlayer.name?' against '+m.oppPlayer.name:'');
+    if (window.confirm('That '+res+' comes from a logged match ('+desc+'). Delete that match?')) deleteMatch(m.id);
+  };
   const toggleOwn = (heroId)=>setData(d=>{ const o={...d.owned}; if(o[heroId])delete o[heroId]; else o[heroId]=true; return {...d, owned:o}; });
   const markOwned = (ids)=>setData(d=>{ const o={...d.owned}; ids.forEach(id=>o[id]=true); return {...d, owned:o}; });
   const clearOwned = (ids)=>setData(d=>{ const o={...d.owned}; ids.forEach(id=>delete o[id]); return {...d, owned:o}; });
@@ -2148,7 +2161,7 @@ function App() {
     person && el(PlayerSheet,{ key:personKey(person), data, person, profile: person.kind==='friend' ? (friends.friends.find(f=>f.uid===person.uid)||null) : null,
       onClose:()=>setPerson(null), onEditMatch:openEdit }),
     whatsNew && el(WhatsNewModal,{ entries:whatsNew, onClose:dismissWhatsNew }),
-    detailHero && el(HeroModal,{ data, heroId:detailHero, onClose:()=>setDetailHero(null), onSetAvatar:setAvatar, onClearAvatar:clearAvatar, onToggleOwn:toggleOwn, onAdjust:adjust }),
+    detailHero && el(HeroModal,{ data, heroId:detailHero, onClose:()=>setDetailHero(null), onSetAvatar:setAvatar, onClearAvatar:clearAvatar, onToggleOwn:toggleOwn, onAdjust:fixRecord }),
     toast && el('div',{className:'dt-toast'+(toast.kind==='err'?' err':''), onClick:()=>setToast(null)}, toast.msg)
   );
 }
